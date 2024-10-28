@@ -3,7 +3,10 @@
   "specifiers": {
     "jsr:@std/assert@1": "1.0.6",
     "jsr:@std/internal@^1.0.4": "1.0.4",
-    "npm:@alicloud/sls20201230@^5.4.1": "5.4.1"
+    "npm:@alicloud/openapi-client@~0.4.12": "0.4.12",
+    "npm:@alicloud/sls20201230@^5.4.1": "5.4.1",
+    "npm:@alicloud/tea-typescript@^1.8.0": "1.8.0",
+    "npm:@alicloud/tea-util@^1.4.9": "1.4.9"
   },
   "jsr": {
     "@std/assert@1.0.6": {
@@ -213,7 +216,10 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
-      "npm:@alicloud/sls20201230@^5.4.1"
+      "npm:@alicloud/openapi-client@~0.4.12",
+      "npm:@alicloud/sls20201230@^5.4.1",
+      "npm:@alicloud/tea-typescript@^1.8.0",
+      "npm:@alicloud/tea-util@^1.4.9"
     ]
   }
 }
