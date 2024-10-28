@@ -1,91 +1,92 @@
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
 import type { ALIYUN_SLS_ENDPOINT } from './endpoint.ts';
+import Sls20201230 from '@alicloud/sls20201230';
+import * as $OpenApi from '@alicloud/openapi-client';
+import * as $Util from '@alicloud/tea-util';
 
-async function slsFetch({
-  protocol = 'https',
-  endpoint,
-  method,
-  path,
-  query,
-  headers: headersAction,
-}: {
-  /**
-   * 协议类型
-   * @default 'https'
-   */
-  protocol?: 'http' | 'https';
-  endpoint: ALIYUN_SLS_ENDPOINT;
-  method?: 'POST' | 'GET';
-  path: string;
-  query?: Record<string, string>;
-  /**
-   * 自定义的 headers
-   */
-  headers?: Record<string, string>;
-}) {
-  const url = new URL(`${protocol}://${endpoint}${path}`);
-
-  if (query) {
-    for (const [key, value] of Object.entries(query)) {
-      url.searchParams.set(key, value);
-    }
-  }
-  const headers = new Headers({
-    'x-acs-date': new Date().toISOString(),
-    host: endpoint,
-    authorization:
-      'ACS3-HMAC-SHA256 Credential=YourAccessKeyId,SignedHeaders=host;x-acs-action;x-acs-content-sha256;x-acs-date;x-acs-signature-nonce;x-acs-version,Signature=e521358f7776c97df52e6b2891a8bc73026794a071b50c3323388c4e0df64804',
-    /**
-     * 请求正文Hash摘要后再base-16编码的结果，与HashedRequestPayload一致。
-     */
-    'x-acs-content-sha256': '',
+/**
+ * 创建 SLS 客户端
+ */
+function createClient(
+  { accessKeyId, accessKeySecret, endpoint }: {
+    accessKeyId: string;
+    accessKeySecret: string;
+    endpoint: ALIYUN_SLS_ENDPOINT;
+  },
+): Sls20201230.default {
+  const config = new $OpenApi.Config({
+    accessKeyId,
+    accessKeySecret,
+    endpoint,
   });
-  if (headersAction) {
-    for (const [key, value] of Object.entries(headersAction)) {
-      headers.set(key, value);
-    }
-  }
-
-  console.log('url', Deno.inspect(url));
-  const res = await fetch(url, { method, headers });
-  return res.json();
+  // config.endpoint = `cn-beijing.log.aliyuncs.com`;
+  return new Sls20201230.default(config);
 }
 
 /**
- * doc: https://help.aliyun.com/zh/sls/developer-reference/api-sls-2020-12-30-getlogs
+ * API doc: https://help.aliyun.com/zh/sls/developer-reference/api-sls-2020-12-30-getlogs
+ * SDK doc: https://next.api.aliyun.com/document/Sls/2020-12-30/GetLogs
  */
 export async function getLogs(
-  { logstore, project }: {
-    logstore: string;
+  { logstore, project, from, to, query }: {
     /**
      * Project 名称
      */
     project: string;
+    /**
+     * Logstore 名称
+     */
+    logstore: string;
+    /**
+     * 开始时间 (包含)
+     */
     from: UNIX_TIMESTAMP;
+    /**
+     * 结束时间 (不包含)
+     */
     to: UNIX_TIMESTAMP;
+    /**
+     * 查询语句
+     */
+    query?: string;
   },
   {
     accessKeyId,
-    secretAccessKey,
+    accessKeySecret,
     endpoint,
   }: {
     accessKeyId: string;
-    secretAccessKey: string;
+    accessKeySecret: string;
     endpoint: ALIYUN_SLS_ENDPOINT;
   },
 ) {
-  const res = await slsFetch({
-    endpoint,
-    method: 'GET',
-    path: `/logstores/${logstore}`,
-    query: {
-      type: 'log',
-      project,
-    },
-    headers: {
-      'x-acs-action': 'log:GetLogStoreLogs',
-      'x-acs-version': '2020-12-30',
-    },
-  });
+  const client = createClient({ accessKeyId, accessKeySecret, endpoint });
+
+  const params: Record<string, unknown> = {
+    from,
+    to,
+  };
+  if (query) params.query = query;
+
+  const getLogsRequest = new Sls20201230.GetLogsRequest(params);
+  const runtime = new $Util.RuntimeOptions({});
+  const headers: { [key: string]: string } = {};
+
+  const res = await client.getLogsWithOptions(
+    project,
+    logstore,
+    getLogsRequest,
+    headers,
+    runtime,
+  );
+
   return res;
 }
+
+// invokeFunctionLatencyMs
+// durationMs 函数执行时间
+// scheduleLatencyMs 调度时间
+// memoryMB 总内存
+// memoryUsageMB 占用内存
+// isColdStart 是否冷启动
+// hasFunctionError 是否有函数错误

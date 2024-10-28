@@ -14,3 +14,8 @@ Aliyun SDK for TypeScript
 应该是在迭代的过程中没有及时更新文档导致.
 
 因为 API 文档也不够好, 所以优先使用 `@alicloud/sls20201230` 这种 SDK.
+
+## 存在的问题
+
+Aliyun SDK 依赖的 `httpx` 使用的 `globalThis.NodeJS.Timeout.unref()` 在 deno
+中可能会被报内存泄漏.

@@ -31,7 +31,8 @@
     "@alicloud/sls20201230": "npm:@alicloud/sls20201230@^5.4.1",
     "@alicloud/tea-typescript": "npm:@alicloud/tea-typescript@^1.8.0",
     "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.9",
-    "@std/assert": "jsr:@std/assert@1"
+    "@std/assert": "jsr:@std/assert@1",
+    "@std/async": "jsr:@std/async@^1.0.7"
   },
   "nodeModulesDir": "auto"
 }
