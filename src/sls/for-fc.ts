@@ -1,6 +1,59 @@
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
 import type { ALIYUN_SLS_ENDPOINT } from './endpoint.ts';
 import { getLogs } from './get-logs.ts';
+import { z } from 'zod';
+
+const FCRequestMetricsSchema = z.object({
+  functionName: z.string(),
+  /**
+   * 函数执行时间
+   */
+  durationMs: z.string().transform((val) => Number(val)),
+  instanceID: z.string(),
+  qualifier: z.string(),
+  versionId: z.string(),
+  requestId: z.string(),
+  resourceMode: z.string(),
+  hostname: z.string(),
+  /**
+   * 总内存
+   */
+  memoryMB: z.string().transform((val) => Number(val)),
+  /**
+   * 占用内存
+   */
+  memoryUsageMB: z.string().transform((val) => Number(val)),
+  invocationStartTimestamp: z.string().transform((val) => Number(val)),
+  invocationType: z.string(),
+  activeInstances: z.string(),
+  activeInstancesPerFunction: z.string(),
+  /**
+   * 调度时间
+   */
+  scheduleLatencyMs: z.string().transform((val) => Number(val)),
+  /**
+   * 公网 IP (可能为 CDN 的 IP)
+   */
+  ipAddress: z.string(),
+  /**
+   * 函数执行开始时间 ms
+   */
+  invokeFunctionStartTimestamp: z.string().transform((val) => Number(val)),
+  isColdStart: z.string().transform((val) => val === 'true'),
+  hasFunctionError: z.string().transform((val) => val === 'true'),
+  requestURI: z.string(),
+  statusCode: z.string(),
+  triggerType: z.string(),
+  clientIP: z.string(),
+  operation: z.string(),
+  invokeFunctionLatencyMs: z.string().transform((val) => Number(val)),
+  method: z.string(),
+  __topic__: z.string(),
+  __source__: z.string(),
+  __time__: z.string(),
+});
+
+type FCRequestMetrics = z.infer<typeof FCRequestMetricsSchema>;
 
 /**
  * 获取 FC 请求指标
@@ -24,7 +77,7 @@ export async function getFCRequestMetrics(
     project: string;
     logstore: string;
   },
-) {
+): Promise<FCRequestMetrics[]> {
   const res = await getLogs({
     project,
     logstore,
@@ -37,13 +90,9 @@ export async function getFCRequestMetrics(
     endpoint,
   });
 
-  return res.body;
-}
+  if (!res.body) {
+    throw new Error(Deno.inspect(res));
+  }
 
-// invokeFunctionLatencyMs
-// durationMs 函数执行时间
-// scheduleLatencyMs 调度时间
-// memoryMB 总内存
-// memoryUsageMB 占用内存
-// isColdStart 是否冷启动
-// hasFunctionError 是否有函数错误
+  return res.body.map((log) => FCRequestMetricsSchema.parse(log));
+}
