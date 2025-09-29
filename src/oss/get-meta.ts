@@ -3,6 +3,17 @@ import { ALIYUN_OSS_ENDPOINT } from './endpoint.ts';
 import * as $Util from '@alicloud/tea-util';
 import { CommonResponseHeaders, createClient } from './util.ts';
 
+type ObjectLocation = {
+  /**
+   * Bucket 名称
+   */
+  bucket: string;
+  /**
+   * Object Path（也可称为 key）
+   */
+  path: string;
+};
+
 type GetObjectMetaResponse = {
   /**
    * Object通过生命周期规则转储为冷归档或者深度冷归档存储类型的时间。
@@ -37,31 +48,25 @@ type GetObjectMetaResponse = {
  * @param param1.verbose - 可选，啰嗦模式，开启后会打印返回的响应用于调试
  * @returns
  */
-export async function getObjectMeta({ bucket, path }: {
-  /**
-   * Bucket 名称
-   */
-  bucket: string;
-  /**
-   * Object Path
-   */
-  path: string;
-}, {
+export async function getObjectMeta({ bucket, path }: ObjectLocation, {
   accessKeyId,
   accessKeySecret,
   endpoint,
   verbose = false,
+  request = new GetObjectMetaRequest({}),
+  headers = {},
+  runtime = new $Util.RuntimeOptions({}),
 }: {
   accessKeyId: string;
   accessKeySecret: string;
   endpoint: ALIYUN_OSS_ENDPOINT;
   verbose?: boolean;
+  readonly request?: GetObjectMetaRequest;
+  headers?: { [key: string]: string };
+  runtime?: $Util.RuntimeOptions;
 }): Promise<GetObjectMetaResponse> {
   // Implementation here
   const client = createClient({ accessKeyId, accessKeySecret, endpoint });
-  const request = new GetObjectMetaRequest({});
-  const headers: { [key: string]: string } = {};
-  const runtime = new $Util.RuntimeOptions({});
 
   const res = await client.getObjectMetaWithOptions(
     bucket,
@@ -107,6 +112,30 @@ export async function getObjectMeta({ bucket, path }: {
   };
 }
 
+export async function batchGetObjectMeta(locations: ObjectLocation[], {
+  accessKeyId,
+  accessKeySecret,
+  endpoint,
+  verbose = false,
+}: {
+  accessKeyId: string;
+  accessKeySecret: string;
+  endpoint: ALIYUN_OSS_ENDPOINT;
+  verbose?: boolean;
+}): Promise<PromiseSettledResult<GetObjectMetaResponse>[]> {
+  // Implementation here
+  const results = await Promise.allSettled(locations.map(async (loc) => {
+    return await getObjectMeta(loc, {
+      accessKeyId,
+      accessKeySecret,
+      endpoint,
+      verbose,
+    });
+  }));
+
+  return results;
+}
+
 type HeadObjectResponse = {
   /**
    * 对于Normal类型的Object，根据RFC 1864标准对消息内容（不包括Header）
@@ -148,16 +177,7 @@ type HeadObjectResponse = {
  *
  * @param param0
  */
-export async function headObject({ bucket, path }: {
-  /**
-   * Bucket 名称
-   */
-  bucket: string;
-  /**
-   * Object Path
-   */
-  path: string;
-}, {
+export async function headObject({ bucket, path }: ObjectLocation, {
   accessKeyId,
   accessKeySecret,
   endpoint,
