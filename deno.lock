@@ -2,7 +2,7 @@
   "version": "5",
   "specifiers": {
     "jsr:@std/assert@1": "1.0.6",
-    "jsr:@std/async@^1.0.7": "1.0.7",
+    "jsr:@std/async@^1.0.14": "1.0.14",
     "jsr:@std/internal@^1.0.4": "1.0.4",
     "npm:@alicloud/openapi-client@~0.4.15": "0.4.15",
     "npm:@alicloud/sls20201230@^5.9.0": "5.9.0",
@@ -17,8 +17,8 @@
         "jsr:@std/internal"
       ]
     },
-    "@std/async@1.0.7": {
-      "integrity": "f4fadc0124432e37cba11e8b3880164661a664de00a65118d976848f32f96290"
+    "@std/async@1.0.14": {
+      "integrity": "62e954a418652c704d37563a3e54a37d4cf0268a9dcaeac1660cc652880b5326"
     },
     "@std/internal@1.0.4": {
       "integrity": "62e8e4911527e5e4f307741a795c0b0a9e6958d0b3790716ae71ce085f755422"
@@ -330,7 +330,7 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1",
-      "jsr:@std/async@^1.0.7",
+      "jsr:@std/async@^1.0.14",
       "npm:@alicloud/openapi-client@~0.4.15",
       "npm:@alicloud/sls20201230@^5.9.0",
       "npm:@alicloud/tea-typescript@^1.8.0",

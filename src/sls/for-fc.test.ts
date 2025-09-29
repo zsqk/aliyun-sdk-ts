@@ -1,4 +1,5 @@
 import { getFCRequestMetrics } from './for-fc.ts';
+import { delay } from '@std/async/delay';
 
 let project = '';
 let logstore = '';
@@ -29,10 +30,6 @@ Deno.test.beforeAll(() => {
 
 Deno.test({
   name: 'getFCRequestMetrics',
-  // Disable resource sanitization due to timer leaks in Alibaba Cloud SDK
-  // This is a known issue with the SDK's HTTP client not properly cleaning up timers
-  sanitizeResources: false,
-  sanitizeOps: false,
   fn: async () => {
     const res = await getFCRequestMetrics({
       from: 1730008970,
@@ -47,5 +44,6 @@ Deno.test({
     });
 
     console.log(' res', res);
+    await delay(5000); // Wait for any pending operations to complete
   },
 });

@@ -33,10 +33,7 @@
     "@alicloud/tea-typescript": "npm:@alicloud/tea-typescript@^1.8.0",
     "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.10",
     "@std/assert": "jsr:@std/assert@1",
-    "@std/async": "jsr:@std/async@^1.0.7",
-    "lz4": "./src/shims/lz4.ts",
-    "npm:lz4": "./src/shims/lz4.ts",
-    "npm:lz4@0.6.5": "./src/shims/lz4.ts",
+    "@std/async": "jsr:@std/async@^1.0.14",
     "zod": "npm:zod@^3.23.8"
   },
   "nodeModulesDir": "auto"
