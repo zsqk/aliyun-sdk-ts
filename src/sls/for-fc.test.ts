@@ -27,18 +27,25 @@ Deno.test.beforeAll(() => {
   console.log({ project, logstore, accessKeyId, accessKeySecret });
 });
 
-Deno.test('getFCRequestMetrics', async () => {
-  const res = await getFCRequestMetrics({
-    from: 1730008970,
-    to: 1730208970,
-    requestId: '1-671f5a9d-133d0cca-3d06b48af8c5',
-  }, {
-    accessKeyId,
-    accessKeySecret,
-    endpoint: 'cn-beijing.log.aliyuncs.com',
-    project,
-    logstore,
-  });
+Deno.test({
+  name: 'getFCRequestMetrics',
+  // Disable resource sanitization due to timer leaks in Alibaba Cloud SDK
+  // This is a known issue with the SDK's HTTP client not properly cleaning up timers
+  sanitizeResources: false,
+  sanitizeOps: false,
+  fn: async () => {
+    const res = await getFCRequestMetrics({
+      from: 1730008970,
+      to: 1730208970,
+      requestId: '1-671f5a9d-133d0cca-3d06b48af8c5',
+    }, {
+      accessKeyId,
+      accessKeySecret,
+      endpoint: 'cn-beijing.log.aliyuncs.com',
+      project,
+      logstore,
+    });
 
-  console.log(' res', res);
+    console.log(' res', res);
+  },
 });

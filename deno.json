@@ -1,7 +1,7 @@
 {
   "lint": {
     "include": [
-      "deploy.json",
+      "deno.json",
       "src/",
       "cli/"
     ],
@@ -16,7 +16,7 @@
   },
   "fmt": {
     "include": [
-      "deploy.json",
+      "deno.json",
       "src/",
       "cli/",
       "build.ts"
@@ -28,12 +28,15 @@
   },
   "unstable": ["detect-cjs"],
   "imports": {
-    "@alicloud/openapi-client": "npm:@alicloud/openapi-client@^0.4.12",
-    "@alicloud/sls20201230": "npm:@alicloud/sls20201230@^5.4.1",
+    "@alicloud/openapi-client": "npm:@alicloud/openapi-client@^0.4.15",
+    "@alicloud/sls20201230": "npm:@alicloud/sls20201230@^5.9.0",
     "@alicloud/tea-typescript": "npm:@alicloud/tea-typescript@^1.8.0",
-    "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.9",
+    "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.10",
     "@std/assert": "jsr:@std/assert@1",
     "@std/async": "jsr:@std/async@^1.0.7",
+    "lz4": "./src/shims/lz4.ts",
+    "npm:lz4": "./src/shims/lz4.ts",
+    "npm:lz4@0.6.5": "./src/shims/lz4.ts",
     "zod": "npm:zod@^3.23.8"
   },
   "nodeModulesDir": "auto"
