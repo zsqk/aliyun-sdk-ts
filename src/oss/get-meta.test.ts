@@ -1,5 +1,5 @@
 import { delay } from '@std/async/delay';
-import { getObjectMeta, headObject } from './get-meta.ts';
+import { batchGetObjectMeta, getObjectMeta, headObject } from './get-meta.ts';
 
 let bucket = '';
 let accessKeyId = '';
@@ -33,6 +33,21 @@ Deno.test('getObjectMeta', async () => {
     bucket,
     path: 'assets/Info-DRcPtTHZ.css',
   }, {
+    accessKeyId,
+    accessKeySecret,
+    endpoint: 'oss-cn-beijing.aliyuncs.com',
+    verbose: true,
+  });
+
+  console.log('res', res);
+  await delay(5000); // Wait for httpx request pending operations to complete
+});
+
+Deno.test('batchGetObjectMeta', async () => {
+  const res = await batchGetObjectMeta([{
+    bucket,
+    path: 'assets/Info-DRcPtTHZ.css',
+  }], {
     accessKeyId,
     accessKeySecret,
     endpoint: 'oss-cn-beijing.aliyuncs.com',

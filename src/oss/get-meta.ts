@@ -49,24 +49,32 @@ type GetObjectMetaResponse = {
  * @returns
  */
 export async function getObjectMeta({ bucket, path }: ObjectLocation, {
-  accessKeyId,
-  accessKeySecret,
-  endpoint,
   verbose = false,
   request = new GetObjectMetaRequest({}),
   headers = {},
   runtime = new $Util.RuntimeOptions({}),
-}: {
-  accessKeyId: string;
-  accessKeySecret: string;
-  endpoint: ALIYUN_OSS_ENDPOINT;
-  verbose?: boolean;
-  readonly request?: GetObjectMetaRequest;
-  headers?: { [key: string]: string };
-  runtime?: $Util.RuntimeOptions;
-}): Promise<GetObjectMetaResponse> {
-  // Implementation here
-  const client = createClient({ accessKeyId, accessKeySecret, endpoint });
+  ...rest
+}:
+  & (
+    | {
+      accessKeyId: string;
+      accessKeySecret: string;
+      endpoint: ALIYUN_OSS_ENDPOINT;
+    }
+    | { client: ReturnType<typeof createClient> }
+  )
+  & {
+    verbose?: boolean;
+    readonly request?: GetObjectMetaRequest;
+    headers?: { [key: string]: string };
+    runtime?: $Util.RuntimeOptions;
+  }): Promise<GetObjectMetaResponse> {
+  // 创建客户端连接
+  const client = 'client' in rest ? rest.client : createClient({
+    accessKeyId: rest.accessKeyId,
+    accessKeySecret: rest.accessKeySecret,
+    endpoint: rest.endpoint,
+  });
 
   const res = await client.getObjectMetaWithOptions(
     bucket,
@@ -112,6 +120,12 @@ export async function getObjectMeta({ bucket, path }: ObjectLocation, {
   };
 }
 
+/**
+ * 批量调用 GetObjectMeta 批量获取对象的元信息
+ * @param locations
+ * @param param1
+ * @returns
+ */
 export async function batchGetObjectMeta(locations: ObjectLocation[], {
   accessKeyId,
   accessKeySecret,
@@ -124,11 +138,17 @@ export async function batchGetObjectMeta(locations: ObjectLocation[], {
   verbose?: boolean;
 }): Promise<PromiseSettledResult<GetObjectMetaResponse>[]> {
   // Implementation here
+  const client = createClient({ accessKeyId, accessKeySecret, endpoint });
+  const runtime = new $Util.RuntimeOptions({});
+  const headers = {};
+  const request = new GetObjectMetaRequest({});
+
   const results = await Promise.allSettled(locations.map(async (loc) => {
     return await getObjectMeta(loc, {
-      accessKeyId,
-      accessKeySecret,
-      endpoint,
+      client,
+      runtime,
+      headers,
+      request,
       verbose,
     });
   }));
