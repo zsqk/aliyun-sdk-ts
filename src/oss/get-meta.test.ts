@@ -23,6 +23,11 @@ Deno.test.beforeAll(() => {
   console.log({ bucket, accessKeyId, accessKeySecret });
 });
 
+Deno.test.afterAll(async () => {
+  // Cleanup if necessary
+  // 每个测试需要单独等待 httpx 的请求完成, 不能统一放在这里, 否则会被判定为泄漏
+});
+
 Deno.test('getObjectMeta', async () => {
   const res = await getObjectMeta({
     bucket,
@@ -35,7 +40,7 @@ Deno.test('getObjectMeta', async () => {
   });
 
   console.log('res', res);
-  await delay(5000); // Wait for any pending operations to complete
+  await delay(5000); // Wait for httpx request pending operations to complete
 });
 
 Deno.test('headObject', async () => {
@@ -50,5 +55,5 @@ Deno.test('headObject', async () => {
   });
 
   console.log('res', res);
-  await delay(5000); // Wait for any pending operations to complete
+  await delay(5000); // Wait for httpx request pending operations to complete
 });
