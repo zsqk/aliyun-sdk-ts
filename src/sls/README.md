@@ -2,12 +2,16 @@
 
 ## 参考文档
 
-过时的文档:
-<https://help.aliyun.com/zh/sls/developer-reference/get-started-with-log-service-sdk-for-node-js>
+目前阿里云官方的 SDK 及文档非常混乱, 需要仔细甄别.
 
-关于 API 版本号, 存在一些问题:
+目前阿里云维护积极的库在:
+<https://github.com/aliyun/alibabacloud-typescript-sdk/tree/master/sls-20201230>
 
-1. 在 <https://www.npmjs.com/package/aliyun-sdk> 中写的是 `2014-11-18`.
-2. 在一些地方写的是 `2015-06-01`.
+以下为弃用的库:
 
-目前 JS SDK 非常落后, 缺乏维护.
+- <https://www.npmjs.com/package/aliyun-sdk>
+- <https://www.npmjs.com/package/@alicloud/log>
+
+以下为过时的文档:
+
+- <https://help.aliyun.com/zh/sls/developer-reference/get-started-with-log-service-sdk-for-node-js>
