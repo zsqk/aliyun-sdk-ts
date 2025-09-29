@@ -1,5 +1,5 @@
 import { delay } from '@std/async/delay';
-import { getObjectMeta } from './get-meta.ts';
+import { getObjectMeta, headObject } from './get-meta.ts';
 
 let bucket = '';
 let accessKeyId = '';
@@ -25,6 +25,21 @@ Deno.test.beforeAll(() => {
 
 Deno.test('getObjectMeta', async () => {
   const res = await getObjectMeta({
+    bucket,
+    path: 'assets/Info-DRcPtTHZ.css',
+  }, {
+    accessKeyId,
+    accessKeySecret,
+    endpoint: 'oss-cn-beijing.aliyuncs.com',
+    verbose: true,
+  });
+
+  console.log('res', res);
+  await delay(5000); // Wait for any pending operations to complete
+});
+
+Deno.test('headObject', async () => {
+  const res = await headObject({
     bucket,
     path: 'assets/Info-DRcPtTHZ.css',
   }, {

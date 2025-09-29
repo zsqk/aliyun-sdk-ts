@@ -20,3 +20,24 @@ export function createClient(
   // config.endpoint = `cn-beijing.log.aliyuncs.com`;
   return new Oss20190517.default(config);
 }
+
+/**
+ * 从响应头中提取通用字段
+ * {@link https://help.aliyun.com/zh/oss/developer-reference/common-http-headers 官方文档}
+ */
+export type CommonResponseHeaders = {
+  /**
+   * ETag (entity tag) 在每个Object生成的时候被创建，用于标识一个Object的内容。
+   * 对于Put Object请求创建的Object，ETag值是其内容的MD5值；
+   * 对于其他方式创建的Object，ETag值是基于一定计算规则生成的唯一值，
+   * 但不是其内容的MD5值。ETag值可以用于检查Object内容是否发生变化。
+   * 默认值：无
+   */
+  etag: string | null;
+  /**
+   * RFC 2616中定义的HTTP请求内容长度。
+   * 单位: 字节
+   * 默认值：无
+   */
+  contentLength: string | null;
+};
