@@ -1,13 +1,33 @@
 import { getFCRequestMetrics } from './for-fc.ts';
 
-const project = Deno.env.get('TEST_SLS_PROJECT')!;
-const logstore = Deno.env.get('TEST_SLS_LOGSTORE')!;
-const accessKeyId = Deno.env.get('TEST_SLS_ACCESS_KEY_ID')!;
-const accessKeySecret = Deno.env.get('TEST_SLS_ACCESS_KEY_SECRET')!;
+let project = '';
+let logstore = '';
+let accessKeyId = '';
+let accessKeySecret = '';
+
+Deno.test.beforeAll(() => {
+  project = Deno.env.get('TEST_SLS_PROJECT') ?? '';
+  logstore = Deno.env.get('TEST_SLS_LOGSTORE') ?? '';
+  accessKeyId = Deno.env.get('TEST_SLS_ACCESS_KEY_ID') ?? '';
+  accessKeySecret = Deno.env.get('TEST_SLS_ACCESS_KEY_SECRET') ?? '';
+
+  if (!project) {
+    throw new Error('TEST_SLS_PROJECT is required');
+  }
+  if (!logstore) {
+    throw new Error('TEST_SLS_LOGSTORE is required');
+  }
+  if (!accessKeyId) {
+    throw new Error('TEST_SLS_ACCESS_KEY_ID is required');
+  }
+  if (!accessKeySecret) {
+    throw new Error('TEST_SLS_ACCESS_KEY_SECRET is required');
+  }
+
+  console.log({ project, logstore, accessKeyId, accessKeySecret });
+});
 
 Deno.test('getFCRequestMetrics', async () => {
-  console.log('project', project);
-  console.log('logstore', logstore);
   const res = await getFCRequestMetrics({
     from: 1730008970,
     to: 1730208970,
@@ -20,5 +40,5 @@ Deno.test('getFCRequestMetrics', async () => {
     logstore,
   });
 
-  console.log(res);
+  console.log(' res', res);
 });

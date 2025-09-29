@@ -26,6 +26,7 @@
     "indentWidth": 2,
     "singleQuote": true
   },
+  "unstable": ["detect-cjs"],
   "imports": {
     "@alicloud/openapi-client": "npm:@alicloud/openapi-client@^0.4.12",
     "@alicloud/sls20201230": "npm:@alicloud/sls20201230@^5.4.1",
