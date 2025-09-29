@@ -29,6 +29,7 @@
   "unstable": ["detect-cjs"],
   "imports": {
     "@alicloud/openapi-client": "npm:@alicloud/openapi-client@^0.4.15",
+    "@alicloud/oss20190517": "npm:@alicloud/oss20190517@^1.0.6",
     "@alicloud/sls20201230": "npm:@alicloud/sls20201230@^5.9.0",
     "@alicloud/tea-typescript": "npm:@alicloud/tea-typescript@^1.8.0",
     "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.10",

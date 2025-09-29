@@ -5,6 +5,7 @@
     "jsr:@std/async@^1.0.14": "1.0.14",
     "jsr:@std/internal@^1.0.4": "1.0.4",
     "npm:@alicloud/openapi-client@~0.4.15": "0.4.15",
+    "npm:@alicloud/oss20190517@^1.0.6": "1.0.6",
     "npm:@alicloud/sls20201230@^5.9.0": "5.9.0",
     "npm:@alicloud/tea-typescript@^1.8.0": "1.8.0",
     "npm:@alicloud/tea-util@^1.4.10": "1.4.10",
@@ -78,6 +79,23 @@
         "kitx"
       ]
     },
+    "@alicloud/gateway-oss@0.0.8": {
+      "integrity": "sha512-CyEqzlk9AeyTBmYzWknNwuAsX5Bbk4OtJzikUmWKyz7CPMcunIQaHwQgeSrcNAx6pK6QxslIifRgI7REloA23A==",
+      "dependencies": [
+        "@alicloud/credentials",
+        "@alicloud/darabonba-array",
+        "@alicloud/darabonba-encode-util@0.0.2",
+        "@alicloud/darabonba-map",
+        "@alicloud/darabonba-signature-util",
+        "@alicloud/darabonba-string",
+        "@alicloud/gateway-spi",
+        "@alicloud/openapi-util",
+        "@alicloud/oss-util",
+        "@alicloud/tea-typescript",
+        "@alicloud/tea-util@1.4.10",
+        "@alicloud/tea-xml@0.0.2"
+      ]
+    },
     "@alicloud/gateway-pop@0.0.6": {
       "integrity": "sha512-KF4I+JvfYuLKc3fWeWYIZ7lOVJ9jRW0sQXdXidZn1DKZ978ncfGf7i0LBfONGk4OxvNb/HD3/0yYhkgZgPbKtA==",
       "dependencies": [
@@ -131,7 +149,7 @@
         "@alicloud/openapi-util",
         "@alicloud/tea-typescript",
         "@alicloud/tea-util@1.4.9",
-        "@alicloud/tea-xml"
+        "@alicloud/tea-xml@0.0.3"
       ]
     },
     "@alicloud/openapi-core@1.0.5": {
@@ -151,6 +169,29 @@
         "@alicloud/tea-util@1.4.10",
         "kitx",
         "sm3"
+      ]
+    },
+    "@alicloud/oss-util@0.0.1": {
+      "integrity": "sha512-5cfcNVhN7YCvwaI1iAheppMFhIVbeFuJZMgS65mxDA0F9ud6kMCkxiYnlYPvms/lvVEuVkEHbR5939WH8ysz0w==",
+      "dependencies": [
+        "@alicloud/tea-typescript",
+        "@types/mime",
+        "@types/xml2js",
+        "int64-buffer",
+        "kitx",
+        "mime",
+        "xml2js@0.4.23"
+      ]
+    },
+    "@alicloud/oss20190517@1.0.6": {
+      "integrity": "sha512-ebhAWEbDL2wylA1Lk/MNc9bwzyUy/ypj5LdZhok66Ui0YRP35x7+XK3rshdxUvZx/dX6eBTUuMzoPoyWTFm/Nw==",
+      "dependencies": [
+        "@alicloud/gateway-oss",
+        "@alicloud/gateway-spi",
+        "@alicloud/openapi-client",
+        "@alicloud/openapi-util",
+        "@alicloud/tea-typescript",
+        "@alicloud/tea-util@1.4.10"
       ]
     },
     "@alicloud/sls20201230@5.9.0": {
@@ -183,12 +224,20 @@
         "kitx"
       ]
     },
+    "@alicloud/tea-xml@0.0.2": {
+      "integrity": "sha512-Xs7v5y7YSNSDDYmiDWAC0/013VWPjS3dQU4KezSLva9VGiTVPaL3S7Nk4NrTmAYCG6MKcrRj/nGEDIWL5KRoPg==",
+      "dependencies": [
+        "@alicloud/tea-typescript",
+        "@types/xml2js",
+        "xml2js@0.4.23"
+      ]
+    },
     "@alicloud/tea-xml@0.0.3": {
       "integrity": "sha512-+/9GliugjrLglsXVrd1D80EqqKgGpyA0eQ6+1ZdUOYCaRguaSwz44trX3PaxPu/HhIPJg9PsGQQ3cSLXWZjbAA==",
       "dependencies": [
         "@alicloud/tea-typescript",
         "@types/xml2js",
-        "xml2js"
+        "xml2js@0.6.2"
       ]
     },
     "@darabonba/typescript@1.0.3": {
@@ -199,8 +248,11 @@
         "lodash",
         "moment",
         "moment-timezone",
-        "xml2js"
+        "xml2js@0.6.2"
       ]
+    },
+    "@types/mime@2.0.3": {
+      "integrity": "sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q=="
     },
     "@types/node@12.20.55": {
       "integrity": "sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ=="
@@ -261,6 +313,9 @@
     "ini@1.3.8": {
       "integrity": "sha512-JV/yugV2uzW5iMRSiZAyDtQd+nxtUnjeLt0acNdw98kKLrvuRVyB80tsREOE7yvGVgalhZ6RNXCmEHkUKBKxew=="
     },
+    "int64-buffer@0.99.1007": {
+      "integrity": "sha512-XDBEu44oSTqlvCSiOZ/0FoUkpWu/vwjJLGSKDabNISPQNZ5wub1FodGHBljRsrR0IXRPq7SslshZYMuA55CgTQ=="
+    },
     "kitx@2.2.0": {
       "integrity": "sha512-tBMwe6AALTBQJb0woQDD40734NKzb0Kzi3k7wQj9ar3AbP9oqhoVrdXPh7rk2r00/glIgd0YbToIUJsnxWMiIg==",
       "dependencies": [
@@ -279,6 +334,10 @@
         "xxhashjs"
       ],
       "scripts": true
+    },
+    "mime@2.6.0": {
+      "integrity": "sha512-USPkMeET31rOMiarsBNIHZKLGgvKc/LrjofAnBlOttf5ajRvqiRA8QsenbcooctK6d6Ts6aqZXBA+XbkKthiQg==",
+      "bin": true
     },
     "moment-timezone@0.5.48": {
       "integrity": "sha512-f22b8LV1gbTO2ms2j2z13MuPogNoh5UzxL3nzNAYKGraILnbGc9NEE6dyiiiLv46DGRb8A4kg8UKWLjPthxBHw==",
@@ -307,6 +366,13 @@
     "undici-types@7.10.0": {
       "integrity": "sha512-t5Fy/nfn+14LuOc2KNYg75vZqClpAiqscVvMygNnlsHBFpSXdJaYtXMcdNLpl/Qvc3P2cB3s6lOV51nqsFq4ag=="
     },
+    "xml2js@0.4.23": {
+      "integrity": "sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==",
+      "dependencies": [
+        "sax",
+        "xmlbuilder"
+      ]
+    },
     "xml2js@0.6.2": {
       "integrity": "sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==",
       "dependencies": [
@@ -332,6 +398,7 @@
       "jsr:@std/assert@1",
       "jsr:@std/async@^1.0.14",
       "npm:@alicloud/openapi-client@~0.4.15",
+      "npm:@alicloud/oss20190517@^1.0.6",
       "npm:@alicloud/sls20201230@^5.9.0",
       "npm:@alicloud/tea-typescript@^1.8.0",
       "npm:@alicloud/tea-util@^1.4.10",
