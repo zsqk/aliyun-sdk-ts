@@ -51,6 +51,7 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
   endpoint,
   verbose = false,
   maxBatchSize = 100,
+  writeResultTo,
 }: {
   accessKeyId: string;
   accessKeySecret: string;
@@ -60,6 +61,10 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
    * 调用 batchGetObjectMeta 时的单批最大数量 (默认 100)
    */
   maxBatchSize?: number;
+  /**
+   * 若提供, 将最终结果 JSON 写入该文件路径 (UTF-8, 覆盖写入)
+   */
+  writeResultTo?: string;
 }): Promise<BeforeUploadResult[]> {
   /**
    * 1. 遍历本地文件夹, 获取所有文件相对路径 (使用 posix 分隔符)
@@ -190,6 +195,34 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
       diffCount,
       missingCount,
     });
+  }
+
+  // 可选: 写入结果到文件
+  if (writeResultTo) {
+    try {
+      // 支持 file:// URL
+      let outPath: string | URL = writeResultTo;
+      if (writeResultTo.startsWith('file://')) {
+        outPath = new URL(writeResultTo);
+      }
+      // 确保目录存在
+      const dir = typeof outPath === 'string'
+        ? outPath.replace(/\/[^/]+$/, '').replace(/\\/g, '/')
+        : new URL('.', outPath).pathname;
+      if (dir) {
+        await Deno.mkdir(dir, { recursive: true }).catch(() => {});
+      }
+      const encoder = new TextEncoder();
+      const json = JSON.stringify(results, null, 2) + '\n';
+      await Deno.writeFile(outPath, encoder.encode(json));
+      if (verbose) {
+        console.log(`[beforeUpload] Result written to ${writeResultTo}`);
+      }
+    } catch (e) {
+      if (verbose) {
+        console.warn('[beforeUpload] Failed to write result file:', e);
+      }
+    }
   }
 
   return results;
