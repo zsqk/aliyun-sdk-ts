@@ -46,7 +46,7 @@ Deno.test('getObjectMeta', async () => {
 Deno.test('batchGetObjectMeta', async () => {
   const res = await batchGetObjectMeta([{
     bucket,
-    path: 'assets/Info-DRcPtTHZ.css',
+    path: 'test.txt',
   }], {
     accessKeyId,
     accessKeySecret,
