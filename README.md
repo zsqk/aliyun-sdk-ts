@@ -45,26 +45,26 @@ deno run -A cli/oss-before-upload.ts \
 
 参数说明：
 
-| 参数 | 描述 |
-| ---- | ---- |
-| `--bucket` | (必填) OSS Bucket 名称 |
-| `--endpoint` | endpoint，默认 `oss-cn-beijing.aliyuncs.com` |
-| `--local` | (必填) 本地文件夹路径 |
-| `--oss-dir` | OSS 目标前缀（可选） |
-| `--ak` / `--sk` | AccessKeyId / AccessKeySecret (或使用环境变量 `OSS_ACCESS_KEY_ID` / `OSS_ACCESS_KEY_SECRET`) |
-| `--max-batch` | 分批获取元信息的最大数量，默认 100 |
-| `--write-result` | 将结果写入指定 JSON 文件 |
-| `--remove-same` | 删除本地与 OSS 内容完全相同的文件 |
-| `--json` | 仅输出 JSON 结果（机器可读） |
-| `--verbose` | 输出详细日志 |
-| `-h, --help` | 查看帮助 |
+|       参数       |                                             描述                                             |
+| ---------------- | -------------------------------------------------------------------------------------------- |
+| `--bucket`       | (必填) OSS Bucket 名称                                                                       |
+| `--endpoint`     | endpoint，默认 `oss-cn-beijing.aliyuncs.com`                                                 |
+| `--local`        | (必填) 本地文件夹路径                                                                        |
+| `--oss-dir`      | OSS 目标前缀（可选）                                                                         |
+| `--ak` / `--sk`  | AccessKeyId / AccessKeySecret (或使用环境变量 `OSS_ACCESS_KEY_ID` / `OSS_ACCESS_KEY_SECRET`) |
+| `--max-batch`    | 分批获取元信息的最大数量，默认 100                                                           |
+| `--write-result` | 将结果写入指定 JSON 文件                                                                     |
+| `--remove-same`  | 删除本地与 OSS 内容完全相同的文件                                                            |
+| `--json`         | 仅输出 JSON 结果（机器可读）                                                                 |
+| `--verbose`      | 输出详细日志                                                                                 |
+| `-h, --help`     | 查看帮助                                                                                     |
 
 输出状态含义：
 
-| 状态 | 含义 |
-| ---- | ---- |
-| `SAME` | 本地文件与 OSS 一致（可跳过） |
+|  状态  |                   含义                   |
+| ------ | ---------------------------------------- |
+| `SAME` | 本地文件与 OSS 一致（可跳过）            |
 | `DIFF` | OSS 已存在但内容不同（通常需要覆盖上传） |
-| `NEW` | OSS 不存在（需要上传） |
+| `NEW`  | OSS 不存在（需要上传）                   |
 
 可与后续真正的上传脚本配合，把 `NEW` 和 `DIFF` 过滤出来进行上传。
