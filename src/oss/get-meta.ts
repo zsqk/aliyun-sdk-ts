@@ -1,4 +1,8 @@
-import { GetObjectMetaRequest, HeadObjectRequest } from '@alicloud/oss20190517';
+import {
+  GetObjectMetaRequest,
+  HeadObjectHeaders,
+  HeadObjectRequest,
+} from '@alicloud/oss20190517';
 import { ALIYUN_OSS_ENDPOINT } from './endpoint.ts';
 import * as $Util from '@alicloud/tea-util';
 import { CommonResponseHeaders, createClient } from './util.ts';
@@ -210,7 +214,7 @@ export async function headObject({ bucket, path }: ObjectLocation, {
 }): Promise<HeadObjectResponse> {
   const client = createClient({ accessKeyId, accessKeySecret, endpoint });
   const request = new HeadObjectRequest({});
-  const headers: { [key: string]: string } = {};
+  const headers = new HeadObjectHeaders({});
   const runtime = new $Util.RuntimeOptions({});
 
   const res = await client.headObjectWithOptions(
