@@ -1,3 +1,4 @@
+import { delay } from '@std/async/delay';
 import { beforeUpload } from './upload.ts';
 
 let bucket = '';
@@ -35,4 +36,5 @@ Deno.test('beforeUpload', async () => {
   });
 
   console.log('res', res);
+  await delay(5000); // Wait for httpx request pending operations to complete
 });

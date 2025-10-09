@@ -16,6 +16,10 @@ type BeforeUploadResult = {
    * 如果对象不存在则无此字段
    */
   ossHash?: string;
+  /**
+   * 表示 OSS 上是否已存在与本地文件内容完全相同的对象（crc64 相等）
+   */
+  same: boolean;
 };
 
 /**
@@ -148,24 +152,17 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
 
   const results: BeforeUploadResult[] = localHashes.map((lh, idx) => {
     const meta = metas[idx];
-    if (meta.status === 'fulfilled') {
-      return {
-        path: lh.path,
-        hash: lh.hash,
-        ossHash: meta.value.crc64ecma ?? undefined,
-      };
-    }
-    return { path: lh.path, hash: lh.hash }; // 文件可能不存在
+    const ossHash = meta.status === 'fulfilled'
+      ? meta.value.crc64ecma ?? undefined
+      : undefined;
+    const same = typeof ossHash === 'string' && ossHash === lh.hash;
+    return { path: lh.path, hash: lh.hash, ossHash, same };
   });
 
   if (verbose) {
-    const diffCount = results.filter((r) =>
-      r.ossHash && r.ossHash !== r.hash
-    ).length;
-    const sameCount = results.filter((r) =>
-      r.ossHash && r.ossHash === r.hash
-    ).length;
-    const missingCount = results.filter((r) => !r.ossHash).length;
+    const sameCount = results.filter((r) => r.same).length;
+    const diffCount = results.filter((r) => r.ossHash && !r.same).length;
+    const missingCount = results.filter((r) => r.ossHash === undefined).length;
     console.log('[beforeUpload] Summary:', {
       sameCount,
       diffCount,
