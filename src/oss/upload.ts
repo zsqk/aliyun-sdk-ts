@@ -22,7 +22,7 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
   verbose?: boolean;
 }): Promise<{ path: string; hash: string; ossHash?: string }[]> {
   // 1. 遍历本地文件夹, 获取所有文件路径
-  // 2. 计算每个文件的 hash (crc64ecma) 值
+  // 2. 使用 @zsqk/crc64 计算每个文件的 hash (crc64ecma) 值
   // 3. batchGetObjectMeta 检查 OSS 上同名文件的 hash 值
   // 4. 返回每个路径的对比结果
 
