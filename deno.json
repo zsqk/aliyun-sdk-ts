@@ -38,5 +38,11 @@
     "@zsqk/crc64": "jsr:@zsqk/crc64@^0.3.3",
     "zod": "npm:zod@^3.23.8"
   },
+  "compilerOptions": {
+    "lib": ["deno.ns", "esnext", "dom"],
+    "module": "esnext",
+    "moduleResolution": "nodenext",
+    "strict": true
+  },
   "nodeModulesDir": "auto"
 }
