@@ -31,7 +31,9 @@ type BeforeUploadResult = {
  * 3. 构造对应的 OSS 对象路径 (ossDir + 相对路径)
  * 4. batchGetObjectMeta 获取 OSS 上对象的元信息 (含 x-oss-hash-crc64ecma)
  * 5. 为避免一次请求过多对象导致压力, 按批 (默认 100) 调用 batchGetObjectMeta
- * 6. 返回数组, 每项包含 path (OSS 对象路径), hash (本地 CRC64), 以及可选的 ossHash
+ * 6. 可选: 写入结果到文件 (writeResultTo)
+ * 7. 可选: 删除本地与 OSS 相同的文件 (removeSame)
+ * 8. 返回数组, 每项包含 path (OSS 对象路径), hash (本地 CRC64), 以及可选的 ossHash
  *
  * 典型用例: 根据结果决定哪些文件需要上传, 哪些可以跳过。
  */
@@ -52,6 +54,7 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
   verbose = false,
   maxBatchSize = 100,
   writeResultTo,
+  removeSame = false,
 }: {
   accessKeyId: string;
   accessKeySecret: string;
@@ -65,6 +68,10 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
    * 若提供, 将最终结果 JSON 写入该文件路径 (UTF-8, 覆盖写入)
    */
   writeResultTo?: string;
+  /**
+   * 若为 true, 在完成对比后删除本地与 OSS 完全相同 (same=true) 的文件
+   */
+  removeSame?: boolean;
 }): Promise<BeforeUploadResult[]> {
   /**
    * 1. 遍历本地文件夹, 获取所有文件相对路径 (使用 posix 分隔符)
@@ -222,6 +229,33 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
       if (verbose) {
         console.warn('[beforeUpload] Failed to write result file:', e);
       }
+    }
+  }
+
+  // 可选: 删除本地相同文件
+  if (removeSame) {
+    // 通过 fileInfos 建立 path -> abs 映射
+    const map = new Map<string, string>(
+      fileInfos.map((f) => [f.ossPath, f.abs]),
+    );
+    let removed = 0;
+    for (const r of results) {
+      if (r.same) {
+        const abs = map.get(r.path);
+        if (abs) {
+          try {
+            await Deno.remove(abs);
+            removed++;
+          } catch (e) {
+            if (verbose) {
+              console.warn('[beforeUpload] Failed to remove file', abs, e);
+            }
+          }
+        }
+      }
+    }
+    if (verbose) {
+      console.log(`[beforeUpload] Removed ${removed} local identical files`);
     }
   }
 
