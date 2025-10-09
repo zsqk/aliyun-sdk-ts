@@ -30,7 +30,8 @@ type BeforeUploadResult = {
  * 2. 计算每个文件的 CRC64 (使用 jsr:@zsqk/crc64)
  * 3. 构造对应的 OSS 对象路径 (ossDir + 相对路径)
  * 4. batchGetObjectMeta 获取 OSS 上对象的元信息 (含 x-oss-hash-crc64ecma)
- * 5. 返回数组, 每项包含 path (OSS 对象路径), hash (本地 CRC64), 以及可选的 ossHash
+ * 5. 为避免一次请求过多对象导致压力, 按批 (默认 100) 调用 batchGetObjectMeta
+ * 6. 返回数组, 每项包含 path (OSS 对象路径), hash (本地 CRC64), 以及可选的 ossHash
  *
  * 典型用例: 根据结果决定哪些文件需要上传, 哪些可以跳过。
  */
@@ -49,16 +50,21 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
   accessKeySecret,
   endpoint,
   verbose = false,
+  maxBatchSize = 100,
 }: {
   accessKeyId: string;
   accessKeySecret: string;
   endpoint: ALIYUN_OSS_ENDPOINT;
   verbose?: boolean;
+  /**
+   * 调用 batchGetObjectMeta 时的单批最大数量 (默认 100)
+   */
+  maxBatchSize?: number;
 }): Promise<BeforeUploadResult[]> {
   /**
    * 1. 遍历本地文件夹, 获取所有文件相对路径 (使用 posix 分隔符)
    * 2. 使用 @zsqk/crc64 计算每个文件的 hash (crc64ecma) 值
-   * 3. 调用 batchGetObjectMeta 检查 OSS 上同名文件的 hash 值 (x-oss-hash-crc64ecma)
+   * 3. 分批 (maxBatchSize) 调用 batchGetObjectMeta 检查 OSS 上同名文件的 hash 值 (x-oss-hash-crc64ecma)
    * 4. 返回每个路径的对比结果 (本地 hash 与 OSS hash)
    */
 
@@ -145,10 +151,26 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
   }
 
   // 批量获取 OSS 上的 crc64 (忽略不存在文件导致的 reject)
-  const metas = await batchGetObjectMeta(
-    fileInfos.map((f) => ({ bucket, path: f.ossPath })),
-    { accessKeyId, accessKeySecret, endpoint, verbose },
-  );
+  // 控制每批请求数量 (默认 <= 100)
+  const objectLocations = fileInfos.map((f) => ({ bucket, path: f.ossPath }));
+  const metas: Awaited<ReturnType<typeof batchGetObjectMeta>>[number][] = [];
+  for (let i = 0; i < objectLocations.length; i += maxBatchSize) {
+    const slice = objectLocations.slice(i, i + maxBatchSize);
+    if (verbose) {
+      console.log(
+        `[beforeUpload] Fetch meta batch ${
+          i / maxBatchSize + 1
+        } (${slice.length} items)`,
+      );
+    }
+    const batch = await batchGetObjectMeta(slice, {
+      accessKeyId,
+      accessKeySecret,
+      endpoint,
+      verbose,
+    });
+    metas.push(...batch);
+  }
 
   const results: BeforeUploadResult[] = localHashes.map((lh, idx) => {
     const meta = metas[idx];
