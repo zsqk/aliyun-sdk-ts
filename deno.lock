@@ -1,10 +1,10 @@
 {
   "version": "5",
   "specifiers": {
-    "jsr:@std/assert@1": "1.0.6",
-    "jsr:@std/async@^1.0.14": "1.0.14",
+    "jsr:@std/assert@^1.0.15": "1.0.15",
+    "jsr:@std/async@^1.0.14": "1.0.15",
     "jsr:@std/encoding@^1.0.10": "1.0.10",
-    "jsr:@std/internal@^1.0.4": "1.0.4",
+    "jsr:@std/internal@^1.0.12": "1.0.12",
     "jsr:@zsqk/crc64@~0.3.3": "0.3.3",
     "npm:@alicloud/openapi-client@~0.4.15": "0.4.15",
     "npm:@alicloud/oss20190517@^1.0.6": "1.0.6",
@@ -15,8 +15,8 @@
     "npm:zod@^3.23.8": "3.23.8"
   },
   "jsr": {
-    "@std/assert@1.0.6": {
-      "integrity": "1904c05806a25d94fe791d6d883b685c9e2dcd60e4f9fc30f4fc5cf010c72207",
+    "@std/assert@1.0.15": {
+      "integrity": "d64018e951dbdfab9777335ecdb000c0b4e3df036984083be219ce5941e4703b",
       "dependencies": [
         "jsr:@std/internal"
       ]
@@ -24,11 +24,14 @@
     "@std/async@1.0.14": {
       "integrity": "62e954a418652c704d37563a3e54a37d4cf0268a9dcaeac1660cc652880b5326"
     },
+    "@std/async@1.0.15": {
+      "integrity": "55d1d9d04f99403fe5730ab16bdcc3c47f658a6bf054cafb38a50f046238116e"
+    },
     "@std/encoding@1.0.10": {
       "integrity": "8783c6384a2d13abd5e9e87a7ae0520a30e9f56aeeaa3bdf910a3eaaf5c811a1"
     },
-    "@std/internal@1.0.4": {
-      "integrity": "62e8e4911527e5e4f307741a795c0b0a9e6958d0b3790716ae71ce085f755422"
+    "@std/internal@1.0.12": {
+      "integrity": "972a634fd5bc34b242024402972cd5143eac68d8dffaca5eaa4dba30ce17b027"
     },
     "@zsqk/crc64@0.3.3": {
       "integrity": "06f2991a6bc084d628bdc19e6bf1b1f6035544027f5b3d11557460802fced7df",
@@ -407,7 +410,7 @@
   },
   "workspace": {
     "dependencies": [
-      "jsr:@std/assert@1",
+      "jsr:@std/assert@^1.0.15",
       "jsr:@std/async@^1.0.14",
       "jsr:@zsqk/crc64@~0.3.3",
       "npm:@alicloud/openapi-client@~0.4.15",

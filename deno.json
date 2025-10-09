@@ -33,7 +33,7 @@
     "@alicloud/sls20201230": "npm:@alicloud/sls20201230@^5.9.0",
     "@alicloud/tea-typescript": "npm:@alicloud/tea-typescript@^1.8.0",
     "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.10",
-    "@std/assert": "jsr:@std/assert@1",
+    "@std/assert": "jsr:@std/assert@^1.0.15",
     "@std/async": "jsr:@std/async@^1.0.14",
     "@zsqk/crc64": "jsr:@zsqk/crc64@^0.3.3",
     "zod": "npm:zod@^3.23.8"
