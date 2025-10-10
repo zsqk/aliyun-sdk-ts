@@ -1,3 +1,4 @@
+import { delay } from '@std/async/delay';
 import { getLogs } from './get-logs.ts';
 
 const project = Deno.env.get('TEST_SLS_PROJECT')!;
@@ -22,4 +23,5 @@ Deno.test('getLogs', async () => {
   });
 
   console.log(res);
+  await delay(3000);
 });
