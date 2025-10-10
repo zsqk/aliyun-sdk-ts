@@ -1,6 +1,6 @@
 import _Sls20201230 from '@alicloud/sls20201230';
 import * as $OpenApi from '@alicloud/openapi-client';
-import { ALIYUN_SLS_ENDPOINT } from './endpoint.ts';
+import { AliyunSlsEndpoint } from './endpoint.ts';
 
 export type SLSClientType = InstanceType<typeof _Sls20201230>;
 
@@ -15,7 +15,7 @@ export function createClient(
   { accessKeyId, accessKeySecret, endpoint }: {
     accessKeyId: string;
     accessKeySecret: string;
-    endpoint: ALIYUN_SLS_ENDPOINT;
+    endpoint: AliyunSlsEndpoint;
   },
 ): SLSClientType {
   const config = new $OpenApi.Config({

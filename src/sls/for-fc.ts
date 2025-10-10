@@ -1,5 +1,5 @@
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
-import type { ALIYUN_SLS_ENDPOINT } from './endpoint.ts';
+import type { AliyunSlsEndpoint } from './endpoint.ts';
 import { getLogs } from './get-logs.ts';
 import { z } from 'zod';
 
@@ -73,7 +73,7 @@ export async function getFCRequestMetrics(
   }: {
     accessKeyId: string;
     accessKeySecret: string;
-    endpoint: ALIYUN_SLS_ENDPOINT;
+    endpoint: AliyunSlsEndpoint;
     project: string;
     logstore: string;
   },
