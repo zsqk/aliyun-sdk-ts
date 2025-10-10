@@ -39,6 +39,9 @@ export type FCRequestMetrics = {
    * 函数执行开始时间 ms
    */
   invokeFunctionStartTimestamp: number;
+  /**
+   * 是否为冷启动 (true | false)
+   */
   isColdStart: boolean;
   hasFunctionError: boolean;
   requestURI: string;
@@ -46,6 +49,9 @@ export type FCRequestMetrics = {
   triggerType: string;
   clientIP: string;
   operation: string;
+  /**
+   * 函数执行时间 ms
+   */
   invokeFunctionLatencyMs: number;
   method: string;
   __topic__: string;
@@ -81,7 +87,7 @@ const FCRequestMetricsSchema: z.ZodSchema<FCRequestMetrics> = z.object({
    * 调度时间
    * `z.union([z.string(), z.number()]).transform((val) => Number(val))`
    */
-  scheduleLatencyMs: z.coerce.number(),
+  scheduleLatencyMs: z.string().transform((val) => Number(val)),
   /**
    * 公网 IP (可能为 CDN 的 IP)
    */
