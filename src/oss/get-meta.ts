@@ -1,3 +1,15 @@
+/**
+ * OSS object metadata helpers
+ *
+ * Exports:
+ *  - getObjectMeta
+ *  - batchGetObjectMeta
+ *
+ * These helpers wrap the Alibaba Cloud OSS SDK to provide convenient
+ * metadata inspection (including CRC64 stored in x-oss-hash-crc64ecma).
+ *
+ * @module
+ */
 import {
   GetObjectMetaRequest,
   HeadObjectHeaders,

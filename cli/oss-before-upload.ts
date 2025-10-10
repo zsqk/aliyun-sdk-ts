@@ -24,6 +24,11 @@
  *    --remove-same \
  *    --verbose
  */
+/**
+ * @module
+ *
+ * Exports: none (CLI entrypoint) — wraps and exercises `beforeUpload` from `src/oss/upload.ts`.
+ */
 
 import { parseArgs } from '@std/cli/parse-args';
 import { beforeUpload } from '../src/oss/upload.ts';
