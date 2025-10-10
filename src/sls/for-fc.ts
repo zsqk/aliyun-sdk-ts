@@ -1,3 +1,22 @@
+/**
+ * Aliyun Serverless Log Service for Function Compute (FC)
+ *
+ * @example
+ * ```ts
+ * import { getFCRequestMetrics } from '@zsqk/aliyun-sdk/sls/for-fc';
+ * await getFCRequestMetrics(
+ *   {from: 1700000000, to: 1700003600, fcName: 'my-fc'},
+ *   {
+ *     accessKeyId: 'xxx', accessKeySecret: 'yyy',
+ *     endpoint: 'cn-beijing.log.aliyuncs.com',
+ *     project: 'my-project', logstore: 'my-logstore'
+ *   },
+ * );
+ * ```
+ *
+ * @module
+ */
+
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
 import type { AliyunSlsEndpoint } from './endpoint.ts';
 import { BaseParams, getLogs } from './get-logs.ts';
