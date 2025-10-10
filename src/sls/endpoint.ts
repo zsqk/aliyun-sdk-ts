@@ -6,6 +6,6 @@
  *
  * @todo 支持更多 endpoint
  */
-export type ALIYUN_SLS_ENDPOINT =
+export type AliyunSlsEndpoint =
   | 'cn-beijing.log.aliyuncs.com'
   | 'cn-qingdao.log.aliyuncs.com';

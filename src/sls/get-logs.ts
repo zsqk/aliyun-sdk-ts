@@ -1,27 +1,8 @@
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
-import type { ALIYUN_SLS_ENDPOINT } from './endpoint.ts';
-import Sls20201230 from '@alicloud/sls20201230';
-import * as $OpenApi from '@alicloud/openapi-client';
+import type { AliyunSlsEndpoint } from './endpoint.ts';
+import { GetLogsRequest } from '@alicloud/sls20201230';
 import * as $Util from '@alicloud/tea-util';
-
-/**
- * 创建 SLS 客户端
- */
-function createClient(
-  { accessKeyId, accessKeySecret, endpoint }: {
-    accessKeyId: string;
-    accessKeySecret: string;
-    endpoint: ALIYUN_SLS_ENDPOINT;
-  },
-): Sls20201230.default {
-  const config = new $OpenApi.Config({
-    accessKeyId,
-    accessKeySecret,
-    endpoint,
-  });
-  // config.endpoint = `cn-beijing.log.aliyuncs.com`;
-  return new Sls20201230.default(config);
-}
+import { createClient } from './utils.ts';
 
 /**
  * API doc: https://help.aliyun.com/zh/sls/developer-reference/api-sls-2020-12-30-getlogs
@@ -57,7 +38,7 @@ export async function getLogs(
   }: {
     accessKeyId: string;
     accessKeySecret: string;
-    endpoint: ALIYUN_SLS_ENDPOINT;
+    endpoint: AliyunSlsEndpoint;
   },
 ) {
   const client = createClient({ accessKeyId, accessKeySecret, endpoint });
@@ -68,7 +49,7 @@ export async function getLogs(
   };
   if (query) params.query = query;
 
-  const getLogsRequest = new Sls20201230.GetLogsRequest(params);
+  const getLogsRequest = new GetLogsRequest(params);
   const runtime = new $Util.RuntimeOptions({});
   const headers: { [key: string]: string } = {};
 
