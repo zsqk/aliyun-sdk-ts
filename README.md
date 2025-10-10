@@ -1,6 +1,8 @@
-# aliyun-sdk-ts
+# Aliyun SDK for TypeScript
 
-Aliyun SDK for TypeScript
+[![JSR @zsqk/aliyun-sdk](https://jsr.io/badges/@zsqk/aliyun-sdk)](https://jsr.io/@zsqk/aliyun-sdk)
+
+一个 TypeScript 类型完善的 Aliyun SDK.
 
 阿里云官方的 SDK 分为几种:
 
