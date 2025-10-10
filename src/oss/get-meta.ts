@@ -5,7 +5,7 @@ import {
 } from '@alicloud/oss20190517';
 import { ALIYUN_OSS_ENDPOINT } from './endpoint.ts';
 import * as $Util from '@alicloud/tea-util';
-import { CommonResponseHeaders, createClient } from './util.ts';
+import { CommonResponseHeaders, createClient, OSSClientType } from './util.ts';
 
 type ObjectLocation = {
   /**
@@ -65,7 +65,7 @@ export async function getObjectMeta({ bucket, path }: ObjectLocation, {
       accessKeySecret: string;
       endpoint: ALIYUN_OSS_ENDPOINT;
     }
-    | { client: ReturnType<typeof createClient> }
+    | { client: OSSClientType }
   )
   & {
     verbose?: boolean;

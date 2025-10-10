@@ -1,6 +1,18 @@
-import Oss20190517 from '@alicloud/oss20190517';
+import _Oss20190517 from '@alicloud/oss20190517';
 import { ALIYUN_OSS_ENDPOINT } from './endpoint.ts';
 import * as $OpenApi from '@alicloud/openapi-client';
+
+/**
+ * [类型] OSS 客户端
+ */
+export type OSSClientType = InstanceType<typeof _Oss20190517>;
+/**
+ * OSS 客户端
+ * 避免因 OSS 类型不良导致的类型错误
+ */
+const Oss20190517 = (_Oss20190517 as unknown as {
+  default: new (config: $OpenApi.Config) => OSSClientType;
+}).default;
 
 /**
  * 创建 OSS 客户端
@@ -11,13 +23,14 @@ export function createClient(
     accessKeySecret: string;
     endpoint: ALIYUN_OSS_ENDPOINT;
   },
-): Oss20190517.default {
+): OSSClientType {
   const config = new $OpenApi.Config({
     accessKeyId,
     accessKeySecret,
     endpoint,
   });
-  return new Oss20190517.default(config);
+
+  return new Oss20190517(config);
 }
 
 /**
