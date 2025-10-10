@@ -1,4 +1,13 @@
 {
+  "name": "@zsqk/aliyun-sdk-ts",
+  "version": "0.1.0",
+  "license": "MIT",
+  "exports": {
+    "./oss/get-meta": "./src/oss/get-meta.ts",
+    "./oss/upload": "./src/oss/upload.ts",
+    "./sls/get-logs": "./src/sls/get-logs.ts",
+    "./sls/for-fc": "./src/sls/for-fc.ts"
+  },
   "lint": {
     "include": [
       "deno.json",
