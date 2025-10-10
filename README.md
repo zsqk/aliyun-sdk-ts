@@ -25,9 +25,13 @@ Aliyun SDK for TypeScript
 Aliyun SDK 依赖的 `httpx` 使用的 `globalThis.NodeJS.Timeout.unref()` 在 deno
 中可能会被报内存泄漏.
 
-```text
-
 ### CLI: beforeUpload 预检查工具
+
+```sh
+deno install -g -A -n osscheck jsr:@zsqk/aliyun-sdk/cli/oss-before-upload
+```
+
+其中的参数 `-g` 表示全局安装, `-A` 表示完全权限, `-n osscheck` 表示重命名为 `osscheck`.
 
 提供一个命令行工具用于在上传前对比本地目录与 OSS 上已有文件（基于 CRC64），可输出计划、写入文件、并可选择删除已完全相同的本地文件。
 
