@@ -131,7 +131,6 @@ const FCRequestMetricsSchema: z.ZodSchema<
   activeInstancesPerFunction: z.string().transform((val) => Number(val)),
   /**
    * 调度时间
-   * `z.union([z.string(), z.number()]).transform((val) => Number(val))`
    */
   scheduleLatencyMs: z.string().transform((val) => Number(val)),
   /**
