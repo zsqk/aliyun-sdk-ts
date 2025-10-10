@@ -13,7 +13,7 @@ type ObjectLocation = {
    */
   bucket: string;
   /**
-   * Object Path（也可称为 key）
+   * Object Path (也可称为 key)
    */
   path: string;
 };
@@ -162,7 +162,7 @@ export async function batchGetObjectMeta(locations: ObjectLocation[], {
 
 type HeadObjectResponse = {
   /**
-   * 对于Normal类型的Object，根据RFC 1864标准对消息内容（不包括Header）
+   * 对于Normal类型的Object，根据RFC 1864标准对消息内容 (不包括Header)
    * 计算Md5值获得128比特位数字，对该数字进行Base64编码作为一个消息的Content-Md5值。
    * Multipart和Appendable类型的文件不会返回这个Header。
    */
@@ -170,11 +170,11 @@ type HeadObjectResponse = {
   /**
    * 表示Object的存储类型，分别为
    *
-   * - 标准存储类型（Standard）
-   * - 低频访问存储类型（IA）
-   * - 归档存储类型（Archive）
-   * - 冷归档存储类型（ColdArchive）
-   * - 深度冷归档存储类型（DeepColdArchive）
+   * - 标准存储类型 (Standard)
+   * - 低频访问存储类型 (IA)
+   * - 归档存储类型 (Archive)
+   * - 冷归档存储类型 (ColdArchive)
+   * - 深度冷归档存储类型 (DeepColdArchive)
    *
    * 更多信息，请参见
    * {@link https://help.aliyun.com/zh/oss/overview-53/ 存储类型介绍}

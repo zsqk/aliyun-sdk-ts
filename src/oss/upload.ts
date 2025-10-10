@@ -17,7 +17,7 @@ type BeforeUploadResult = {
    */
   ossHash?: string;
   /**
-   * 表示 OSS 上是否已存在与本地文件内容完全相同的对象（crc64 相等）
+   * 表示 OSS 上是否已存在与本地文件内容完全相同的对象 (crc64 相等)
    */
   same: boolean;
 };
