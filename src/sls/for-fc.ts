@@ -1,6 +1,6 @@
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
 import type { AliyunSlsEndpoint } from './endpoint.ts';
-import { getLogs } from './get-logs.ts';
+import { BaseParams, getLogs } from './get-logs.ts';
 import { z } from 'zod';
 
 /**
@@ -160,7 +160,7 @@ const FCRequestMetricsSchema: z.ZodSchema<
  * 获取 FC 请求指标
  */
 export async function getFCRequestMetrics(
-  { from, to, requestId, fcName }: {
+  { from, to, requestId, fcName, ...rest }: {
     from: UNIX_TIMESTAMP;
     to: UNIX_TIMESTAMP;
     requestId?: string;
@@ -168,7 +168,7 @@ export async function getFCRequestMetrics(
      * Function Compute 函数名称
      */
     fcName?: string;
-  },
+  } & BaseParams,
   {
     accessKeyId,
     accessKeySecret,
@@ -195,6 +195,7 @@ export async function getFCRequestMetrics(
     to,
     query,
     topic: fcName ? `FCRequestMetrics:/${fcName}` : undefined,
+    ...rest,
   }, {
     accessKeyId,
     accessKeySecret,

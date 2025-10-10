@@ -6,6 +6,31 @@ import { createClient } from './utils.ts';
 import { isVerbose } from '../config.ts';
 
 /**
+ * [类型] getLogs 的基础参数
+ */
+export type BaseParams = {
+  /**
+   * 请求返回的最大日志条数
+   * 仅当 query 参数为查询语句时, 该参数有效
+   * 默认值为 100
+   */
+  line?: number;
+  /**
+   * 查询开始行数
+   * 仅当 query 参数为查询语句时, 该参数有效
+   * 默认值为 0
+   */
+  offset?: number;
+  /**
+   * 是否按时间倒序返回日志
+   *
+   * - false (默认值): 按照日志时间戳升序返回日志.
+   * - true: 按照日志时间戳降序返回日志.
+   */
+  reverse?: boolean;
+};
+
+/**
  * API doc: https://help.aliyun.com/zh/sls/developer-reference/api-sls-2020-12-30-getlogs
  * SDK doc: https://next.api.aliyun.com/document/Sls/2020-12-30/GetLogs
  */
@@ -36,26 +61,7 @@ export async function getLogs(
      * 默认值为空字符串
      */
     topic?: string;
-    /**
-     * 请求返回的最大日志条数
-     * 仅当 query 参数为查询语句时, 该参数有效
-     * 默认值为 100
-     */
-    line?: number;
-    /**
-     * 查询开始行数
-     * 仅当 query 参数为查询语句时, 该参数有效
-     * 默认值为 0
-     */
-    offset?: number;
-    /**
-     * 是否按时间倒序返回日志
-     *
-     * - false (默认值): 按照日志时间戳升序返回日志.
-     * - true: 按照日志时间戳降序返回日志.
-     */
-    reverse?: boolean;
-  },
+  } & BaseParams,
   {
     accessKeyId,
     accessKeySecret,
