@@ -5,7 +5,7 @@ import {
 } from '@alicloud/oss20190517';
 import { AliyunOssEndpoint } from './endpoint.ts';
 import * as $Util from '@alicloud/tea-util';
-import { CommonResponseHeaders, createClient, OSSClientType } from './util.ts';
+import { CommonResponseHeaders, createClient, OSSClientType } from './utils.ts';
 
 type ObjectLocation = {
   /**
