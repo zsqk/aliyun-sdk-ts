@@ -51,7 +51,7 @@
   },
   "compilerOptions": {
     "lib": ["deno.ns", "esnext", "dom"],
-    "module": "esnext",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "strict": true
   },

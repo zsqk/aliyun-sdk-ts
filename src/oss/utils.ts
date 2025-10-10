@@ -3,16 +3,14 @@ import { AliyunOssEndpoint } from './endpoint.ts';
 import * as $OpenApi from '@alicloud/openapi-client';
 
 /**
- * [类型] OSS 客户端
+ * [类型] OSS 请求客户端
  */
-export type OSSClientType = InstanceType<typeof _Oss20190517>;
+export type OSSClientType = _Oss20190517.default;
+
 /**
- * OSS 客户端
- * 避免因 OSS 类型不良导致的类型错误
+ * OSS 请求客户端
  */
-const Oss20190517 = (_Oss20190517 as unknown as {
-  default: new (config: $OpenApi.Config) => OSSClientType;
-}).default;
+export const Oss20190517 = _Oss20190517.default;
 
 /**
  * 创建 OSS 客户端

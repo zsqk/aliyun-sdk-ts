@@ -2,11 +2,15 @@ import _Sls20201230 from '@alicloud/sls20201230';
 import * as $OpenApi from '@alicloud/openapi-client';
 import { AliyunSlsEndpoint } from './endpoint.ts';
 
-export type SLSClientType = InstanceType<typeof _Sls20201230>;
+/**
+ * [类型] SLS 请求客户端
+ */
+export type SLSClientType = _Sls20201230.default;
 
-export const Sls20201230 = (_Sls20201230 as unknown as {
-  default: new (config: $OpenApi.Config) => SLSClientType;
-}).default;
+/**
+ * SLS 请求客户端
+ */
+export const Sls20201230 = _Sls20201230.default;
 
 /**
  * 创建 SLS 客户端
