@@ -1,3 +1,14 @@
+/**
+ * OSS upload helpers
+ *
+ * Exports:
+ *  - beforeUpload
+ *
+ * Provides utilities used by the CLI to compare local files with OSS
+ * objects using CRC64 checksums (x-oss-hash-crc64ecma).
+ *
+ * @module
+ */
 import { AliyunOssEndpoint } from './endpoint.ts';
 import { batchGetObjectMeta } from './get-meta.ts';
 

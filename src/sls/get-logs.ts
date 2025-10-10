@@ -1,3 +1,15 @@
+/**
+ * SLS (Serverless Log Service) helpers
+ *
+ * Exports:
+ *  - getLogs
+ *  - BaseParams
+ *
+ * Small wrapper over the Alibaba Cloud SLS SDK to simplify GetLogs
+ * requests used elsewhere in the project.
+ *
+ * @module
+ */
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
 import type { AliyunSlsEndpoint } from './endpoint.ts';
 import { GetLogsRequest, GetLogsResponse } from '@alicloud/sls20201230';

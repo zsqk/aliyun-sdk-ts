@@ -75,3 +75,8 @@ deno run -A cli/oss-before-upload.ts \
 | `NEW`  | OSS 不存在 (需要上传)                   |
 
 可与后续真正的上传脚本配合，把 `NEW` 和 `DIFF` 过滤出来进行上传。
+
+## License
+
+This project is licensed under the Apache License 2.0. See the `LICENSE` file —
+an SPDX identifier has been added and a minimal `NOTICE` file is present.
