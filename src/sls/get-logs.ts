@@ -1,32 +1,8 @@
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
 import type { ALIYUN_SLS_ENDPOINT } from './endpoint.ts';
-import _Sls20201230, { GetLogsRequest } from '@alicloud/sls20201230';
-import * as $OpenApi from '@alicloud/openapi-client';
+import { GetLogsRequest } from '@alicloud/sls20201230';
 import * as $Util from '@alicloud/tea-util';
-
-type SLSClientType = InstanceType<typeof _Sls20201230>;
-const Sls20201230 = (_Sls20201230 as unknown as {
-  default: new (config: $OpenApi.Config) => SLSClientType;
-}).default;
-
-/**
- * 创建 SLS 客户端
- */
-function createClient(
-  { accessKeyId, accessKeySecret, endpoint }: {
-    accessKeyId: string;
-    accessKeySecret: string;
-    endpoint: ALIYUN_SLS_ENDPOINT;
-  },
-): SLSClientType {
-  const config = new $OpenApi.Config({
-    accessKeyId,
-    accessKeySecret,
-    endpoint,
-  });
-  // config.endpoint = `cn-beijing.log.aliyuncs.com`;
-  return new Sls20201230(config);
-}
+import { createClient } from './utils.ts';
 
 /**
  * API doc: https://help.aliyun.com/zh/sls/developer-reference/api-sls-2020-12-30-getlogs
