@@ -1,6 +1,6 @@
 import type { UNIX_TIMESTAMP } from '../types/common.ts';
 import type { AliyunSlsEndpoint } from './endpoint.ts';
-import { GetLogsRequest } from '@alicloud/sls20201230';
+import { GetLogsRequest, GetLogsResponse } from '@alicloud/sls20201230';
 import * as $Util from '@alicloud/tea-util';
 import { createClient } from './utils.ts';
 
@@ -40,7 +40,7 @@ export async function getLogs(
     accessKeySecret: string;
     endpoint: AliyunSlsEndpoint;
   },
-) {
+): Promise<GetLogsResponse> {
   const client = createClient({ accessKeyId, accessKeySecret, endpoint });
 
   const params: Record<string, unknown> = {
