@@ -1,27 +1,21 @@
-// Documentation:
-// https://help.aliyun.com/zh/oss/regions-and-endpoints
-
 /**
- * Aliyun OSS supported endpoints (public cloud)
+ * Aliyun OSS supported endpoint regions (public cloud only).
  * {@link https://help.aliyun.com/zh/oss/regions-and-endpoints doc}
  *
- * Includes common public (external) and internal (intranet) endpoint patterns.
- * Uses TypeScript template literal types to cover common region and domain combos:
- * - Public example: oss-cn-hangzhou.aliyuncs.com
- * - Internal example: oss-cn-hangzhou-internal.aliyuncs.com
+ * Coverage:
+ *  - Explicit list of currently documented public regions (external network access).
+ *  - Some regions are marked deprecated in the official docs (retained for backward compatibility).
  *
- * Note: This does not exhaust all possible endpoints (Aliyun may add regions),
- * but covers most common public-cloud regions and their internal/external domain patterns.
+ * Notes:
+ *  - This list is intentionally strict (no generic `string` fallback) to surface typos at compile time.
+ *  - Aliyun may introduce new regions; update this list as needed.
  */
-/**
- * Public (external) OSS regions.
- * Renamed from ALIYUN_OSS_PUBLIC_REGION to follow TypeScript type naming conventions.
- */
+/** Public (external) OSS regions. */
 export type AliyunOssPublicRegion =
   | 'cn-hangzhou'
   | 'cn-shanghai'
-  | 'cn-nanjing' // Nanjing (deprecated)
-  | 'cn-fuzhou' // Fuzhou (deprecated)
+  | 'cn-nanjing' // Deprecated (kept for compatibility)
+  | 'cn-fuzhou' // Deprecated (kept for compatibility)
   | 'cn-wuhan-lr'
   | 'cn-qingdao'
   | 'cn-beijing'
@@ -48,26 +42,31 @@ export type AliyunOssPublicRegion =
   | 'na-south-1' // Mexico
   | 'me-east-1'; // Dubai
 
-/** 部分 gov / 专属 region 只提供内网访问（不提供公网 endpoint） */
 /**
- * Internal-only regions (no public internet endpoint).
- * Renamed from ALIYUN_OSS_INTERNAL_ONLY_REGION.
+ * Internal-only (intranet) regions (no public internet endpoint is provided).
+ * Used mainly for government / dedicated environments.
  */
 export type AliyunOssInternalOnlyRegion = 'cn-north-2-gov-1';
 
-/** 外网 endpoint，例如: oss-cn-hangzhou.aliyuncs.com */
-/** 公网（外网）Endpoint：显式列出以保证严格性（含公共云和金融云对外公开的公网 endpoint） */
+/**
+ * Public (internet) OSS endpoints.
+ * Pattern (most cases): `oss-${region}.aliyuncs.com`.
+ * Includes additional finance cloud public endpoints explicitly documented.
+ */
 export type AliyunOssPublicEndpoint =
   | `oss-${AliyunOssPublicRegion}.aliyuncs.com`
-  | // 金融云对外公开的公网 endpoint（文档列出，需要额外的 region id）
+  | // Finance cloud public endpoints (explicit in docs)
   'oss-cn-hzfinance.aliyuncs.com'
   | 'oss-cn-shanghai-finance-1-pub.aliyuncs.com'
   | 'oss-cn-szfinance.aliyuncs.com'
   | 'oss-cn-shenzhen-finance-1-pub.aliyuncs.com'
   | 'oss-cn-beijing-finance-1-pub.aliyuncs.com';
 
-/** 内网 endpoint，例如: oss-cn-hangzhou-internal.aliyuncs.com */
-/** 内网 endpoint：显式列出文档中的所有标准内网 endpoint 以及金融云/政务云的内网特例 */
+/**
+ * Internal (intranet) OSS endpoints.
+ * Pattern (standard cases): `oss-${region}-internal.aliyuncs.com`.
+ * Includes documented finance cloud and government cloud intranet variants.
+ */
 export type AliyunOssInternalEndpoint =
   | 'oss-cn-hangzhou-internal.aliyuncs.com'
   | 'oss-cn-shanghai-internal.aliyuncs.com'
@@ -97,7 +96,7 @@ export type AliyunOssInternalEndpoint =
   | 'oss-us-east-1-internal.aliyuncs.com'
   | 'oss-na-south-1-internal.aliyuncs.com'
   | 'oss-me-east-1-internal.aliyuncs.com'
-  // 金融云内网特例（文档示例）
+  // Finance cloud intranet examples (explicitly documented)
   | 'oss-cn-hzjbp-a-internal.aliyuncs.com'
   | 'oss-cn-hzjbp-b-internal.aliyuncs.com'
   | 'oss-cn-shanghai-finance-1-internal.aliyuncs.com'
@@ -106,10 +105,10 @@ export type AliyunOssInternalEndpoint =
   | 'oss-cn-shanghai-finance-1-pub-internal.aliyuncs.com'
   | 'oss-cn-hzfinance-internal.aliyuncs.com'
   | 'oss-cn-szfinance-internal.aliyuncs.com'
-  // 政务云内网
+  // Government cloud intranet region
   | 'oss-cn-north-2-gov-1-internal.aliyuncs.com';
 
-/** 所有支持的公共云 OSS endpoint（严格列出文档中的外网与内网 endpoint） */
+/** Union of all supported (public + internal) documented OSS endpoints. */
 export type AliyunOssEndpoint =
   | AliyunOssPublicEndpoint
   | AliyunOssInternalEndpoint;
