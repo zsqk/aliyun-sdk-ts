@@ -127,12 +127,17 @@ export async function getFCRequestMetrics(
     logstore: string;
   },
 ): Promise<FCRequestMetrics[]> {
+  const querys: string[] = [];
+  if (requestId) {
+    querys.push(`requestId: ${requestId}`);
+  }
+  const query = querys.length ? querys.join(' AND ') : undefined;
   const res = await getLogs({
     project,
     logstore,
     from,
     to,
-    query: requestId ? `requestId: ${requestId}` : undefined,
+    query,
   }, {
     accessKeyId,
     accessKeySecret,
