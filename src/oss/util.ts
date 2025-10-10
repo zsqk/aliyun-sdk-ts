@@ -17,7 +17,6 @@ export function createClient(
     accessKeySecret,
     endpoint,
   });
-  // config.endpoint = `cn-beijing.log.aliyuncs.com`;
   return new Oss20190517.default(config);
 }
 
