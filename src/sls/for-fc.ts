@@ -3,6 +3,48 @@ import type { AliyunSlsEndpoint } from './endpoint.ts';
 import { getLogs } from './get-logs.ts';
 import { z } from 'zod';
 
+/**
+ * FCRequestMetrics 原始字段
+ * 来自日志服务的原始字段，全部为字符串类型
+ */
+type FCRequestMetricsOriginal = {
+  functionName: string;
+  /**
+   * 版本的别名, 比如 `LATEST`
+   */
+  qualifier: string;
+  versionId: string;
+  instanceID: string;
+  activeInstancesPerFunction: string;
+  method: string;
+  requestURI: string;
+  statusCode: string;
+  hostname: string;
+  isColdStart: string;
+  resourceMode: string;
+  durationMs: string;
+  invocationType: string;
+  scheduleLatencyMs: string;
+  operation: string;
+  memoryMB: string;
+  memoryUsageMB: string;
+  activeInstances: string;
+  ipAddress: string;
+  invokeFunctionStartTimestamp: string;
+  hasFunctionError: string;
+  triggerType: string;
+  clientIP: string;
+  requestId: string;
+  invokeFunctionLatencyMs: string;
+  invocationStartTimestamp: string;
+  __pack_meta__?: string;
+  __topic__?: string;
+  __source__?: string;
+  '__tag__:__pack_id__'?: string;
+  '__tag__:__receive_time__'?: string;
+  __time__?: string;
+};
+
 export type FCRequestMetrics = {
   functionName: string;
   /**
@@ -25,8 +67,8 @@ export type FCRequestMetrics = {
   memoryUsageMB: number;
   invocationStartTimestamp: number;
   invocationType: string;
-  activeInstances: string;
-  activeInstancesPerFunction: string;
+  activeInstances: number;
+  activeInstancesPerFunction: number;
   /**
    * 调度时间
    */
@@ -59,7 +101,11 @@ export type FCRequestMetrics = {
   __time__: string;
 };
 
-const FCRequestMetricsSchema: z.ZodSchema<FCRequestMetrics> = z.object({
+const FCRequestMetricsSchema: z.ZodSchema<
+  FCRequestMetrics,
+  z.ZodTypeDef,
+  FCRequestMetricsOriginal
+> = z.object({
   functionName: z.string(),
   /**
    * 函数执行时间
@@ -81,8 +127,8 @@ const FCRequestMetricsSchema: z.ZodSchema<FCRequestMetrics> = z.object({
   memoryUsageMB: z.string().transform((val) => Number(val)),
   invocationStartTimestamp: z.string().transform((val) => Number(val)),
   invocationType: z.string(),
-  activeInstances: z.string(),
-  activeInstancesPerFunction: z.string(),
+  activeInstances: z.string().transform((val) => Number(val)),
+  activeInstancesPerFunction: z.string().transform((val) => Number(val)),
   /**
    * 调度时间
    * `z.union([z.string(), z.number()]).transform((val) => Number(val))`
