@@ -29,12 +29,21 @@
   "unstable": ["detect-cjs"],
   "imports": {
     "@alicloud/openapi-client": "npm:@alicloud/openapi-client@^0.4.15",
+    "@alicloud/oss20190517": "npm:@alicloud/oss20190517@^1.0.6",
     "@alicloud/sls20201230": "npm:@alicloud/sls20201230@^5.9.0",
     "@alicloud/tea-typescript": "npm:@alicloud/tea-typescript@^1.8.0",
     "@alicloud/tea-util": "npm:@alicloud/tea-util@^1.4.10",
-    "@std/assert": "jsr:@std/assert@1",
+    "@std/assert": "jsr:@std/assert@^1.0.15",
     "@std/async": "jsr:@std/async@^1.0.14",
+    "@std/cli": "jsr:@std/cli@^1.0.23",
+    "@zsqk/crc64": "jsr:@zsqk/crc64@^0.3.3",
     "zod": "npm:zod@^3.23.8"
+  },
+  "compilerOptions": {
+    "lib": ["deno.ns", "esnext", "dom"],
+    "module": "esnext",
+    "moduleResolution": "nodenext",
+    "strict": true
   },
   "nodeModulesDir": "auto"
 }
