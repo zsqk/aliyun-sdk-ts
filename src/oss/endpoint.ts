@@ -113,17 +113,3 @@ export type AliyunOssInternalEndpoint =
 export type AliyunOssEndpoint =
   | AliyunOssPublicEndpoint
   | AliyunOssInternalEndpoint;
-
-// ---------------------------------------------------------------------------
-// Deprecated alias exports (backward compatibility)
-// ---------------------------------------------------------------------------
-/** @deprecated Use AliyunOssPublicRegion */
-export type ALIYUN_OSS_PUBLIC_REGION = AliyunOssPublicRegion;
-/** @deprecated Use AliyunOssInternalOnlyRegion */
-export type ALIYUN_OSS_INTERNAL_ONLY_REGION = AliyunOssInternalOnlyRegion;
-/** @deprecated Use AliyunOssPublicEndpoint */
-export type ALIYUN_OSS_PUBLIC_ENDPOINT = AliyunOssPublicEndpoint;
-/** @deprecated Use AliyunOssInternalEndpoint */
-export type ALIYUN_OSS_INTERNAL_ENDPOINT = AliyunOssInternalEndpoint;
-/** @deprecated Use AliyunOssEndpoint */
-export type ALIYUN_OSS_ENDPOINT = AliyunOssEndpoint;
