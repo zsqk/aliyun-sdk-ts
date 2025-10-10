@@ -1,4 +1,4 @@
-import { ALIYUN_OSS_ENDPOINT } from './endpoint.ts';
+import { AliyunOssEndpoint } from './endpoint.ts';
 import { batchGetObjectMeta } from './get-meta.ts';
 
 // Lazy import inside function to avoid cost when not used
@@ -58,7 +58,7 @@ export async function beforeUpload({ bucket, ossDir = '', localDir }: {
 }: {
   accessKeyId: string;
   accessKeySecret: string;
-  endpoint: ALIYUN_OSS_ENDPOINT;
+  endpoint: AliyunOssEndpoint;
   verbose?: boolean;
   /**
    * 调用 batchGetObjectMeta 时的单批最大数量 (默认 100)

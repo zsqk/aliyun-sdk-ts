@@ -3,7 +3,7 @@ import {
   HeadObjectHeaders,
   HeadObjectRequest,
 } from '@alicloud/oss20190517';
-import { ALIYUN_OSS_ENDPOINT } from './endpoint.ts';
+import { AliyunOssEndpoint } from './endpoint.ts';
 import * as $Util from '@alicloud/tea-util';
 import { CommonResponseHeaders, createClient, OSSClientType } from './util.ts';
 
@@ -63,7 +63,7 @@ export async function getObjectMeta({ bucket, path }: ObjectLocation, {
     | {
       accessKeyId: string;
       accessKeySecret: string;
-      endpoint: ALIYUN_OSS_ENDPOINT;
+      endpoint: AliyunOssEndpoint;
     }
     | { client: OSSClientType }
   )
@@ -138,7 +138,7 @@ export async function batchGetObjectMeta(locations: ObjectLocation[], {
 }: {
   accessKeyId: string;
   accessKeySecret: string;
-  endpoint: ALIYUN_OSS_ENDPOINT;
+  endpoint: AliyunOssEndpoint;
   verbose?: boolean;
 }): Promise<PromiseSettledResult<GetObjectMetaResponse>[]> {
   // Implementation here
@@ -209,7 +209,7 @@ export async function headObject({ bucket, path }: ObjectLocation, {
 }: {
   accessKeyId: string;
   accessKeySecret: string;
-  endpoint: ALIYUN_OSS_ENDPOINT;
+  endpoint: AliyunOssEndpoint;
   verbose?: boolean;
 }): Promise<HeadObjectResponse> {
   const client = createClient({ accessKeyId, accessKeySecret, endpoint });

@@ -1,5 +1,5 @@
 import _Oss20190517 from '@alicloud/oss20190517';
-import { ALIYUN_OSS_ENDPOINT } from './endpoint.ts';
+import { AliyunOssEndpoint } from './endpoint.ts';
 import * as $OpenApi from '@alicloud/openapi-client';
 
 /**
@@ -21,7 +21,7 @@ export function createClient(
   { accessKeyId, accessKeySecret, endpoint }: {
     accessKeyId: string;
     accessKeySecret: string;
-    endpoint: ALIYUN_OSS_ENDPOINT;
+    endpoint: AliyunOssEndpoint; // prefer new PascalCase type
   },
 ): OSSClientType {
   const config = new $OpenApi.Config({

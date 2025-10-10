@@ -13,7 +13,11 @@
  * Note: This does not exhaust all possible endpoints (Aliyun may add regions),
  * but covers most common public-cloud regions and their internal/external domain patterns.
  */
-export type ALIYUN_OSS_PUBLIC_REGION =
+/**
+ * Public (external) OSS regions.
+ * Renamed from ALIYUN_OSS_PUBLIC_REGION to follow TypeScript type naming conventions.
+ */
+export type AliyunOssPublicRegion =
   | 'cn-hangzhou'
   | 'cn-shanghai'
   | 'cn-nanjing' // Nanjing (deprecated)
@@ -45,12 +49,16 @@ export type ALIYUN_OSS_PUBLIC_REGION =
   | 'me-east-1'; // Dubai
 
 /** 部分 gov / 专属 region 只提供内网访问（不提供公网 endpoint） */
-export type ALIYUN_OSS_INTERNAL_ONLY_REGION = 'cn-north-2-gov-1';
+/**
+ * Internal-only regions (no public internet endpoint).
+ * Renamed from ALIYUN_OSS_INTERNAL_ONLY_REGION.
+ */
+export type AliyunOssInternalOnlyRegion = 'cn-north-2-gov-1';
 
 /** 外网 endpoint，例如: oss-cn-hangzhou.aliyuncs.com */
 /** 公网（外网）Endpoint：显式列出以保证严格性（含公共云和金融云对外公开的公网 endpoint） */
-export type ALIYUN_OSS_PUBLIC_ENDPOINT =
-  | `oss-${ALIYUN_OSS_PUBLIC_REGION}.aliyuncs.com`
+export type AliyunOssPublicEndpoint =
+  | `oss-${AliyunOssPublicRegion}.aliyuncs.com`
   | // 金融云对外公开的公网 endpoint（文档列出，需要额外的 region id）
   'oss-cn-hzfinance.aliyuncs.com'
   | 'oss-cn-shanghai-finance-1-pub.aliyuncs.com'
@@ -60,7 +68,7 @@ export type ALIYUN_OSS_PUBLIC_ENDPOINT =
 
 /** 内网 endpoint，例如: oss-cn-hangzhou-internal.aliyuncs.com */
 /** 内网 endpoint：显式列出文档中的所有标准内网 endpoint 以及金融云/政务云的内网特例 */
-export type ALIYUN_OSS_INTERNAL_ENDPOINT =
+export type AliyunOssInternalEndpoint =
   | 'oss-cn-hangzhou-internal.aliyuncs.com'
   | 'oss-cn-shanghai-internal.aliyuncs.com'
   | 'oss-cn-nanjing-internal.aliyuncs.com'
@@ -102,6 +110,20 @@ export type ALIYUN_OSS_INTERNAL_ENDPOINT =
   | 'oss-cn-north-2-gov-1-internal.aliyuncs.com';
 
 /** 所有支持的公共云 OSS endpoint（严格列出文档中的外网与内网 endpoint） */
-export type ALIYUN_OSS_ENDPOINT =
-  | ALIYUN_OSS_PUBLIC_ENDPOINT
-  | ALIYUN_OSS_INTERNAL_ENDPOINT;
+export type AliyunOssEndpoint =
+  | AliyunOssPublicEndpoint
+  | AliyunOssInternalEndpoint;
+
+// ---------------------------------------------------------------------------
+// Deprecated alias exports (backward compatibility)
+// ---------------------------------------------------------------------------
+/** @deprecated Use AliyunOssPublicRegion */
+export type ALIYUN_OSS_PUBLIC_REGION = AliyunOssPublicRegion;
+/** @deprecated Use AliyunOssInternalOnlyRegion */
+export type ALIYUN_OSS_INTERNAL_ONLY_REGION = AliyunOssInternalOnlyRegion;
+/** @deprecated Use AliyunOssPublicEndpoint */
+export type ALIYUN_OSS_PUBLIC_ENDPOINT = AliyunOssPublicEndpoint;
+/** @deprecated Use AliyunOssInternalEndpoint */
+export type ALIYUN_OSS_INTERNAL_ENDPOINT = AliyunOssInternalEndpoint;
+/** @deprecated Use AliyunOssEndpoint */
+export type ALIYUN_OSS_ENDPOINT = AliyunOssEndpoint;
