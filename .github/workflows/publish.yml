@@ -1,0 +1,74 @@
+name: Publish
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "deno.json"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      tag: ${{ steps.tag.outputs.TAG }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Read package version
+        id: version
+        run: |
+          echo "VERSION=$(jq -r '.version // empty' deno.json)" >> $GITHUB_OUTPUT
+
+      - name: Set tag name
+        id: tag
+        run: |
+          if [ -n "${{ steps.version.outputs.VERSION }}" ] && [ "${{ steps.version.outputs.VERSION }}" != "null" ]; then
+            TAG="v${{ steps.version.outputs.VERSION }}"
+          else
+            TAG="v${{ github.run_number }}"
+          fi
+          echo "TAG=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Publish package
+        id: publish
+        run: deno publish
+
+  release:
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository (fetch tags)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set tag variable
+        run: |
+          echo "TAG=${{ needs.publish.outputs.tag }}" >> $GITHUB_OUTPUT
+        id: set_tag
+
+      - name: Create tag
+        env:
+          TAG: ${{ needs.publish.outputs.tag }}
+        run: |
+          echo "Creating tag $TAG"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "Release $TAG" || echo "tag exists"
+          git push origin "$TAG" || echo "push failed or tag already exists"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.publish.outputs.tag }}
+          name: ${{ needs.publish.outputs.tag }}
+          body: "Release ${{ needs.publish.outputs.tag }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
