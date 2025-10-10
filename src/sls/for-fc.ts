@@ -108,10 +108,14 @@ const FCRequestMetricsSchema: z.ZodSchema<FCRequestMetrics> = z.object({
  * 获取 FC 请求指标
  */
 export async function getFCRequestMetrics(
-  { from, to, requestId }: {
+  { from, to, requestId, fcName }: {
     from: UNIX_TIMESTAMP;
     to: UNIX_TIMESTAMP;
     requestId?: string;
+    /**
+     * Function Compute 函数名称
+     */
+    fcName?: string;
   },
   {
     accessKeyId,
@@ -138,6 +142,7 @@ export async function getFCRequestMetrics(
     from,
     to,
     query,
+    topic: fcName ? `FCRequestMetrics:/${fcName}` : undefined,
   }, {
     accessKeyId,
     accessKeySecret,
