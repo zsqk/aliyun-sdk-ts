@@ -6,16 +6,19 @@ Aliyun SDK for TypeScript
 
 1. <https://www.npmjs.com/package/aliyun-sdk>
    已经长期没有更新, 并且没有标注替代方案.
-   [repo](https://github.com/aliyun/aliyun-sdk-nodejs)
+   之前的仓库 `aliyun/aliyun-sdk-nodejs` 已经改名为 `aliyun-UED/aliyun-sdk-js`.
 2. <https://www.npmjs.com/package/@alicloud/sls20201230/>
    从开发者中心 <https://api.aliyun.com/api-tools/sdk/Sls?version=2020-12-30>
-   可进入. 但一方面文档欠缺, 一方面真怕哪天又不维护了.
+   可进入. 应该是自动生成的文档及 SDK.
    [repo](https://github.com/aliyun/alibabacloud-typescript-sdk)
 
 除此之外, 阿里云的 API 也比较乱, 或者说从不同文档处得到的许多信息都冲突.
 应该是在迭代的过程中没有及时更新文档导致.
 
-因为 API 文档也不够好, 所以优先使用 `@alicloud/sls20201230` 这种 SDK.
+在阿里云中, 不同的功能可能还会有专属的 SDK, 比如 OSS 的
+<https://github.com/ali-sdk/ali-oss>.
+
+目前为了方便, 统一使用阿里云自动生成的 aliyun/alibabacloud-typescript-sdk.
 
 ## 存在的问题
 
