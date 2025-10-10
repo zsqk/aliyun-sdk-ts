@@ -1,3 +1,4 @@
+import { setVerbose } from '../config.ts';
 import { getFCRequestMetrics } from './for-fc.ts';
 import { delay } from '@std/async/delay';
 
@@ -7,6 +8,8 @@ let accessKeyId = '';
 let accessKeySecret = '';
 
 Deno.test.beforeAll(() => {
+  setVerbose(true);
+
   project = Deno.env.get('TEST_SLS_PROJECT') ?? '';
   logstore = Deno.env.get('TEST_SLS_LOGSTORE') ?? '';
   accessKeyId = Deno.env.get('TEST_SLS_ACCESS_KEY_ID') ?? '';
@@ -32,9 +35,10 @@ Deno.test({
   name: 'getFCRequestMetrics',
   fn: async () => {
     const res = await getFCRequestMetrics({
-      from: 1730008970,
-      to: 1730208970,
-      requestId: '1-671f5a9d-133d0cca-3d06b48af8c5',
+      from: new Date('2025-10-10T00:00:00+08:00').getTime() / 1000,
+      to: new Date('2025-10-11T01:00:00+08:00').getTime() / 1000,
+      fcName: 's1-dapi',
+      line: 3,
     }, {
       accessKeyId,
       accessKeySecret,
@@ -43,7 +47,7 @@ Deno.test({
       logstore,
     });
 
-    console.log(' res', res);
-    await delay(5000); // Wait for any pending operations to complete
+    console.log('res', res);
+    await delay(3000); // Wait for any pending operations to complete
   },
 });
