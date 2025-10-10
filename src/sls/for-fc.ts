@@ -3,7 +3,57 @@ import type { AliyunSlsEndpoint } from './endpoint.ts';
 import { getLogs } from './get-logs.ts';
 import { z } from 'zod';
 
-const FCRequestMetricsSchema = z.object({
+export type FCRequestMetrics = {
+  functionName: string;
+  /**
+   * 函数执行时间
+   */
+  durationMs: number;
+  instanceID: string;
+  qualifier: string;
+  versionId: string;
+  requestId: string;
+  resourceMode: string;
+  hostname: string;
+  /**
+   * 总内存
+   */
+  memoryMB: number;
+  /**
+   * 占用内存
+   */
+  memoryUsageMB: number;
+  invocationStartTimestamp: number;
+  invocationType: string;
+  activeInstances: string;
+  activeInstancesPerFunction: string;
+  /**
+   * 调度时间
+   */
+  scheduleLatencyMs: number;
+  /**
+   * 公网 IP (可能为 CDN 的 IP)
+   */
+  ipAddress: string;
+  /**
+   * 函数执行开始时间 ms
+   */
+  invokeFunctionStartTimestamp: number;
+  isColdStart: boolean;
+  hasFunctionError: boolean;
+  requestURI: string;
+  statusCode: string;
+  triggerType: string;
+  clientIP: string;
+  operation: string;
+  invokeFunctionLatencyMs: number;
+  method: string;
+  __topic__: string;
+  __source__: string;
+  __time__: string;
+};
+
+const FCRequestMetricsSchema: z.ZodSchema<FCRequestMetrics> = z.object({
   functionName: z.string(),
   /**
    * 函数执行时间
@@ -29,8 +79,9 @@ const FCRequestMetricsSchema = z.object({
   activeInstancesPerFunction: z.string(),
   /**
    * 调度时间
+   * `z.union([z.string(), z.number()]).transform((val) => Number(val))`
    */
-  scheduleLatencyMs: z.string().transform((val) => Number(val)),
+  scheduleLatencyMs: z.coerce.number(),
   /**
    * 公网 IP (可能为 CDN 的 IP)
    */
@@ -52,8 +103,6 @@ const FCRequestMetricsSchema = z.object({
   __source__: z.string(),
   __time__: z.string(),
 });
-
-type FCRequestMetrics = z.infer<typeof FCRequestMetricsSchema>;
 
 /**
  * 获取 FC 请求指标
@@ -94,5 +143,5 @@ export async function getFCRequestMetrics(
     throw new Error(Deno.inspect(res));
   }
 
-  return res.body.map((log) => FCRequestMetricsSchema.parse(log));
+  return res.body.map((log: unknown) => FCRequestMetricsSchema.parse(log));
 }
